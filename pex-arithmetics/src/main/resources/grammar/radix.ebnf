@@ -1,0 +1,14 @@
+grammar arithmetics-radix;
+
+// Radix literal formats for non-decimal integer representations
+
+radix-literal ::= hex-literal | bin-literal | oct-literal ;
+
+// Hexadecimal: 0x or 0X prefix, digits 0-9 and a-f (case insensitive)
+hex-literal ::= /0[xX][0-9a-fA-F]+/ ;
+
+// Binary: 0b or 0B prefix, digits 0-1
+bin-literal ::= /0[bB][01]+/ ;
+
+// Octal: 0o or 0O prefix, digits 0-7
+oct-literal ::= /0[oO][0-7]+/ ;

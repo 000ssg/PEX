@@ -1,0 +1,7 @@
+grammar test;
+
+// A minimal test grammar for GrammarLoader tests
+expression ::= term ('+' term)* ;
+term ::= factor ('*' factor)* ;
+factor ::= number | '(' expression ')' ;
+number ::= /[0-9]+/ ;

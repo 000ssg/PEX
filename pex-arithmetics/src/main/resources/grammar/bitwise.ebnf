@@ -1,0 +1,28 @@
+grammar arithmetics-bitwise;
+
+// Bitwise operator grammar
+// All bitwise operations require integer operands;
+// decimal values are auto-cast to integer before applying
+
+bitwise-expr ::= bitwise-or ;
+
+bitwise-or ::= bitwise-xor ('|' bitwise-xor)* ;
+bitwise-xor ::= bitwise-and ('^' bitwise-and)* ;
+bitwise-and ::= shift-expr ('&' shift-expr)* ;
+
+shift-expr ::= unary-bitwise (('>>>' | '<<' | '>>') unary-bitwise)* ;
+
+unary-bitwise ::= '~' unary-bitwise | primary ;
+
+primary ::= int-literal
+           | hex-literal
+           | bin-literal
+           | oct-literal
+           | identifier
+           | '(' bitwise-expr ')' ;
+
+int-literal ::= /[0-9]+/ ;
+hex-literal ::= /0[xX][0-9a-fA-F]+/ ;
+bin-literal ::= /0[bB][01]+/ ;
+oct-literal ::= /0[oO][0-7]+/ ;
+identifier ::= /[a-zA-Z_][a-zA-Z0-9_]*/ ;

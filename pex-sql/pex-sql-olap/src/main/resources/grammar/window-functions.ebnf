@@ -1,0 +1,42 @@
+grammar sql-window-functions;
+
+// Window function grammar: OVER clause, PARTITION BY, frame specifications
+
+window-function-call ::= window-func-name '(' arg-list? ')' over-clause ;
+
+window-func-name ::= 'ROW_NUMBER' | 'RANK' | 'DENSE_RANK'
+                    | 'NTILE' | 'LAG' | 'LEAD'
+                    | 'FIRST_VALUE' | 'LAST_VALUE' | 'NTH_VALUE'
+                    | 'SUM' | 'AVG' | 'COUNT' | 'MIN' | 'MAX' ;
+
+arg-list ::= expression (',' expression)* ;
+
+over-clause ::= 'OVER' '(' partition-clause? order-clause? frame-clause? ')' ;
+
+partition-clause ::= 'PARTITION' 'BY' column-list ;
+column-list ::= column-name (',' column-name)* ;
+
+order-clause ::= 'ORDER' 'BY' order-item (',' order-item)* ;
+order-item ::= column-name ('ASC' | 'DESC')? ('NULLS' ('FIRST' | 'LAST'))? ;
+
+frame-clause ::= frame-type frame-extent ;
+frame-type ::= 'ROWS' | 'RANGE' ;
+
+frame-extent ::= 'BETWEEN' frame-bound 'AND' frame-bound
+               | frame-bound ;
+
+frame-bound ::= 'UNBOUNDED' 'PRECEDING'
+              | 'UNBOUNDED' 'FOLLOWING'
+              | 'CURRENT' 'ROW'
+              | number 'PRECEDING'
+              | number 'FOLLOWING' ;
+
+column-name ::= identifier ;
+identifier ::= /[a-zA-Z_][a-zA-Z0-9_]*/ ;
+expression ::= expression-term (expression-op expression-term)* ;
+expression-term ::= literal-value | column-name | function-call | '(' expression ')' ;
+expression-op ::= '+' | '-' | '*' | '/' | '||' ;
+function-call ::= identifier '(' (expression (',' expression)* | '*')? ')' ;
+literal-value ::= number | string-literal | 'NULL' ;
+string-literal ::= /'[^']*'/ ;
+number ::= /[0-9]+/ ;

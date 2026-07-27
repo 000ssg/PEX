@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Grammar: sql-grouping-sets</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 20px 40px;
+      color: #333;
+      background: #fff;
+    }
+    h1 { border-bottom: 2px solid #2c5aa0; padding-bottom: 10px; color: #2c5aa0; }
+    h2 { color: #444; margin-top: 30px; }
+    h3 { color: #2c5aa0; margin-top: 0; }
+    .toc { column-count: 2; column-gap: 30px; }
+    .toc a { color: #2c5aa0; text-decoration: none; }
+    .toc a:hover { text-decoration: underline; }
+    .rule {
+      border-top: 1px solid #ddd;
+      padding: 20px 0;
+    }
+    .diagram {
+      background: #f8f8f8;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      padding: 16px;
+      margin: 12px 0;
+      overflow-x: auto;
+    }
+    .diagram svg { display: block; }
+    .bnf {
+      background: #f5f5f5;
+      border-left: 3px solid #2c5aa0;
+      padding: 8px 12px;
+      margin: 12px 0;
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 13px;
+      white-space: pre-wrap;
+    }
+    .bnf code { color: #333; }
+    svg text { font-family: 'Consolas', 'Monaco', monospace; font-size: 13px; }
+    svg a text { fill: #2c5aa0; }
+    svg a:hover text { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <h1>Grammar: sql-grouping-sets</h1>
+  <h2>Table of Contents</h2>
+  <ul class="toc">
+    <li><a href="#rule-grouping-extension">grouping-extension</a></li>
+    <li><a href="#rule-grouping-sets">grouping-sets</a></li>
+    <li><a href="#rule-grouping-element-list">grouping-element-list</a></li>
+    <li><a href="#rule-grouping-element">grouping-element</a></li>
+    <li><a href="#rule-cube-clause">cube-clause</a></li>
+    <li><a href="#rule-rollup-clause">rollup-clause</a></li>
+    <li><a href="#rule-column-list">column-list</a></li>
+    <li><a href="#rule-column-name">column-name</a></li>
+    <li><a href="#rule-identifier">identifier</a></li>
+  </ul>
+
+  <div class="rule" id="rule-grouping-extension">
+    <h3>grouping-extension</h3>
+    <div class="diagram">
+      <svg width="220" height="138" viewBox="0 0 220 138">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <line x1="20" y1="27" x2="20" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="40" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="12" width="120" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-grouping-sets"><text x="48" y="32" fill="#2c5aa0">grouping-sets</text></a>
+        <line x1="160" y1="27" x2="180" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="180" y1="27" x2="180" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="69" x2="40" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="54" width="104" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-cube-clause"><text x="48" y="74" fill="#2c5aa0">cube-clause</text></a>
+        <line x1="144" y1="69" x2="180" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="180" y1="27" x2="180" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="111" x2="40" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="96" width="120" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-rollup-clause"><text x="48" y="116" fill="#2c5aa0">rollup-clause</text></a>
+        <line x1="160" y1="111" x2="180" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="180" y1="27" x2="180" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="180" y1="27" x2="194" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="194,24 200,27 194,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>grouping-extension ::= grouping-sets | cube-clause | rollup-clause</code></div>
+  </div>
+
+  <div class="rule" id="rule-grouping-sets">
+    <h3>grouping-sets</h3>
+    <div class="diagram">
+      <svg width="564" height="54" viewBox="0 0 564 54">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <rect x="20" y="12" width="96" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="28" y="32" fill="#000000">&#39;GROUPING&#39;</text>
+        <line x1="116" y1="27" x2="136" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="136" y="12" width="64" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="144" y="32" fill="#000000">&#39;SETS&#39;</text>
+        <line x1="200" y1="27" x2="220" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="220" y="12" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="228" y="32" fill="#000000">&#39;(&#39;</text>
+        <line x1="260" y1="27" x2="280" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="280" y="12" width="184" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-grouping-element-list"><text x="288" y="32" fill="#2c5aa0">grouping-element-list</text></a>
+        <line x1="464" y1="27" x2="484" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="484" y="12" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="492" y="32" fill="#000000">&#39;)&#39;</text>
+        <line x1="524" y1="27" x2="538" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="538,24 544,27 538,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>grouping-sets ::= 'GROUPING' 'SETS' '(' grouping-element-list ')'</code></div>
+  </div>
+
+  <div class="rule" id="rule-grouping-element-list">
+    <h3>grouping-element-list</h3>
+    <div class="diagram">
+      <svg width="480" height="70" viewBox="0 0 480 70">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <rect x="20" y="12" width="144" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-grouping-element"><text x="28" y="32" fill="#2c5aa0">grouping-element</text></a>
+        <line x1="164" y1="27" x2="184" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="204" y="12" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="212" y="32" fill="#000000">&#39;,&#39;</text>
+        <line x1="244" y1="27" x2="264" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="264" y="12" width="144" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-grouping-element"><text x="272" y="32" fill="#2c5aa0">grouping-element</text></a>
+        <line x1="184" y1="27" x2="204" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="408" y1="27" x2="428" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="408" y1="27" x2="408" y2="54" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="204" y1="54" x2="408" y2="54" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="204" y1="27" x2="204" y2="54" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="184" y1="27" x2="184" y2="2" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="184" y1="2" x2="428" y2="2" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="428" y1="2" x2="428" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="430" y="32" fill="#999">*</text>
+        <line x1="440" y1="27" x2="454" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="454,24 460,27 454,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>grouping-element-list ::= grouping-element ( ',' grouping-element )*</code></div>
+  </div>
+
+  <div class="rule" id="rule-grouping-element">
+    <h3>grouping-element</h3>
+    <div class="diagram">
+      <svg width="376" height="96" viewBox="0 0 376 96">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <line x1="20" y1="27" x2="20" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="40" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="12" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="32" fill="#000000">&#39;(&#39;</text>
+        <line x1="80" y1="27" x2="100" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="120" y="12" width="104" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-column-list"><text x="128" y="32" fill="#2c5aa0">column-list</text></a>
+        <line x1="100" y1="27" x2="120" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="224" y1="27" x2="244" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="100" y1="27" x2="100" y2="2" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="100" y1="2" x2="244" y2="2" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="244" y1="2" x2="244" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="246" y="32" fill="#999">?</text>
+        <line x1="256" y1="27" x2="276" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="276" y="12" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="284" y="32" fill="#000000">&#39;)&#39;</text>
+        <line x1="316" y1="27" x2="336" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="336" y1="27" x2="336" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="69" x2="40" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="54" width="104" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-column-name"><text x="48" y="74" fill="#2c5aa0">column-name</text></a>
+        <line x1="144" y1="69" x2="336" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="336" y1="27" x2="336" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="336" y1="27" x2="350" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="350,24 356,27 350,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>grouping-element ::= '(' column-list? ')' | column-name</code></div>
+  </div>
+
+  <div class="rule" id="rule-cube-clause">
+    <h3>cube-clause</h3>
+    <div class="diagram">
+      <svg width="368" height="54" viewBox="0 0 368 54">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <rect x="20" y="12" width="64" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="28" y="32" fill="#000000">&#39;CUBE&#39;</text>
+        <line x1="84" y1="27" x2="104" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="104" y="12" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="112" y="32" fill="#000000">&#39;(&#39;</text>
+        <line x1="144" y1="27" x2="164" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="164" y="12" width="104" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-column-list"><text x="172" y="32" fill="#2c5aa0">column-list</text></a>
+        <line x1="268" y1="27" x2="288" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="288" y="12" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="296" y="32" fill="#000000">&#39;)&#39;</text>
+        <line x1="328" y1="27" x2="342" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="342,24 348,27 342,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>cube-clause ::= 'CUBE' '(' column-list ')'</code></div>
+  </div>
+
+  <div class="rule" id="rule-rollup-clause">
+    <h3>rollup-clause</h3>
+    <div class="diagram">
+      <svg width="384" height="54" viewBox="0 0 384 54">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <rect x="20" y="12" width="80" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="28" y="32" fill="#000000">&#39;ROLLUP&#39;</text>
+        <line x1="100" y1="27" x2="120" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="120" y="12" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="128" y="32" fill="#000000">&#39;(&#39;</text>
+        <line x1="160" y1="27" x2="180" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="180" y="12" width="104" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-column-list"><text x="188" y="32" fill="#2c5aa0">column-list</text></a>
+        <line x1="284" y1="27" x2="304" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="304" y="12" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="312" y="32" fill="#000000">&#39;)&#39;</text>
+        <line x1="344" y1="27" x2="358" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="358,24 364,27 358,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>rollup-clause ::= 'ROLLUP' '(' column-list ')'</code></div>
+  </div>
+
+  <div class="rule" id="rule-column-list">
+    <h3>column-list</h3>
+    <div class="diagram">
+      <svg width="400" height="70" viewBox="0 0 400 70">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <rect x="20" y="12" width="104" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-column-name"><text x="28" y="32" fill="#2c5aa0">column-name</text></a>
+        <line x1="124" y1="27" x2="144" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="164" y="12" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="172" y="32" fill="#000000">&#39;,&#39;</text>
+        <line x1="204" y1="27" x2="224" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="224" y="12" width="104" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-column-name"><text x="232" y="32" fill="#2c5aa0">column-name</text></a>
+        <line x1="144" y1="27" x2="164" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="328" y1="27" x2="348" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="328" y1="27" x2="328" y2="54" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="164" y1="54" x2="328" y2="54" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="164" y1="27" x2="164" y2="54" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="144" y1="27" x2="144" y2="2" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="144" y1="2" x2="348" y2="2" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="348" y1="2" x2="348" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="350" y="32" fill="#999">*</text>
+        <line x1="360" y1="27" x2="374" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="374,24 380,27 374,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>column-list ::= column-name ( ',' column-name )*</code></div>
+  </div>
+
+  <div class="rule" id="rule-column-name">
+    <h3>column-name</h3>
+    <div class="diagram">
+      <svg width="156" height="54" viewBox="0 0 156 54">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <rect x="20" y="12" width="96" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-identifier"><text x="28" y="32" fill="#2c5aa0">identifier</text></a>
+        <line x1="116" y1="27" x2="130" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="130,24 136,27 130,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>column-name ::= identifier</code></div>
+  </div>
+
+  <div class="rule" id="rule-identifier">
+    <h3>identifier</h3>
+    <div class="diagram">
+      <svg width="252" height="54" viewBox="0 0 252 54">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <rect x="20" y="12" width="192" height="30" rx="10" ry="10" fill="#e6e6fa" stroke="#3c3c3c" stroke-width="1.5" stroke-dasharray="4,3" />
+        <text x="28" y="32" fill="#000000">[a-zA-Z_][a-zA-Z0-9_]*</text>
+        <line x1="212" y1="27" x2="226" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="226,24 232,27 226,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>identifier ::= /[a-zA-Z_][a-zA-Z0-9_]*/</code></div>
+  </div>
+
+</body>
+</html>

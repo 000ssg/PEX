@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Grammar: sql-window-functions</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 20px 40px;
+      color: #333;
+      background: #fff;
+    }
+    h1 { border-bottom: 2px solid #2c5aa0; padding-bottom: 10px; color: #2c5aa0; }
+    h2 { color: #444; margin-top: 30px; }
+    h3 { color: #2c5aa0; margin-top: 0; }
+    .toc { column-count: 2; column-gap: 30px; }
+    .toc a { color: #2c5aa0; text-decoration: none; }
+    .toc a:hover { text-decoration: underline; }
+    .rule {
+      border-top: 1px solid #ddd;
+      padding: 20px 0;
+    }
+    .diagram {
+      background: #f8f8f8;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      padding: 16px;
+      margin: 12px 0;
+      overflow-x: auto;
+    }
+    .diagram svg { display: block; }
+    .bnf {
+      background: #f5f5f5;
+      border-left: 3px solid #2c5aa0;
+      padding: 8px 12px;
+      margin: 12px 0;
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 13px;
+      white-space: pre-wrap;
+    }
+    .bnf code { color: #333; }
+    svg text { font-family: 'Consolas', 'Monaco', monospace; font-size: 13px; }
+    svg a text { fill: #2c5aa0; }
+    svg a:hover text { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <h1>Grammar: sql-window-functions</h1>
+  <h2>Table of Contents</h2>
+  <ul class="toc">
+    <li><a href="#rule-window-function-call">window-function-call</a></li>
+    <li><a href="#rule-window-func-name">window-func-name</a></li>
+    <li><a href="#rule-arg-list">arg-list</a></li>
+    <li><a href="#rule-over-clause">over-clause</a></li>
+    <li><a href="#rule-partition-clause">partition-clause</a></li>
+    <li><a href="#rule-column-list">column-list</a></li>
+    <li><a href="#rule-order-clause">order-clause</a></li>
+    <li><a href="#rule-order-item">order-item</a></li>
+    <li><a href="#rule-frame-clause">frame-clause</a></li>
+    <li><a href="#rule-frame-type">frame-type</a></li>
+    <li><a href="#rule-frame-extent">frame-extent</a></li>
+    <li><a href="#rule-frame-bound">frame-bound</a></li>
+    <li><a href="#rule-column-name">column-name</a></li>
+    <li><a href="#rule-identifier">identifier</a></li>
+    <li><a href="#rule-expression">expression</a></li>
+    <li><a href="#rule-expression-term">expression-term</a></li>
+    <li><a href="#rule-expression-op">expression-op</a></li>
+    <li><a href="#rule-function-call">function-call</a></li>
+    <li><a href="#rule-literal-value">literal-value</a></li>
+    <li><a href="#rule-string-literal">string-literal</a></li>
+    <li><a href="#rule-number">number</a></li>
+  </ul>
+
+  <div class="rule" id="rule-window-function-call">
+    <h3>window-function-call</h3>
+    <div class="diagram">
+      <svg width="600" height="54" viewBox="0 0 600 54">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <rect x="20" y="12" width="144" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-window-func-name"><text x="28" y="32" fill="#2c5aa0">window-func-name</text></a>
+        <line x1="164" y1="27" x2="184" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="184" y="12" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="192" y="32" fill="#000000">&#39;(&#39;</text>
+        <line x1="224" y1="27" x2="244" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="264" y="12" width="80" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-arg-list"><text x="272" y="32" fill="#2c5aa0">arg-list</text></a>
+        <line x1="244" y1="27" x2="264" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="344" y1="27" x2="364" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="244" y1="27" x2="244" y2="2" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="244" y1="2" x2="364" y2="2" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="364" y1="2" x2="364" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="366" y="32" fill="#999">?</text>
+        <line x1="376" y1="27" x2="396" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="396" y="12" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="404" y="32" fill="#000000">&#39;)&#39;</text>
+        <line x1="436" y1="27" x2="456" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="456" y="12" width="104" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-over-clause"><text x="464" y="32" fill="#2c5aa0">over-clause</text></a>
+        <line x1="560" y1="27" x2="574" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="574,24 580,27 574,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>window-function-call ::= window-func-name '(' arg-list? ')' over-clause</code></div>
+  </div>
+
+  <div class="rule" id="rule-window-func-name">
+    <h3>window-func-name</h3>
+    <div class="diagram">
+      <svg width="220" height="600" viewBox="0 0 220 600">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <line x1="20" y1="27" x2="20" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="40" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="12" width="112" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="32" fill="#000000">&#39;ROW_NUMBER&#39;</text>
+        <line x1="152" y1="27" x2="180" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="180" y1="27" x2="180" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="69" x2="40" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="54" width="64" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="74" fill="#000000">&#39;RANK&#39;</text>
+        <line x1="104" y1="69" x2="180" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="180" y1="27" x2="180" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="111" x2="40" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="96" width="112" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="116" fill="#000000">&#39;DENSE_RANK&#39;</text>
+        <line x1="152" y1="111" x2="180" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="180" y1="27" x2="180" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="153" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="153" x2="40" y2="153" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="138" width="72" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="158" fill="#000000">&#39;NTILE&#39;</text>
+        <line x1="112" y1="153" x2="180" y2="153" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="180" y1="27" x2="180" y2="153" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="195" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="195" x2="40" y2="195" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="180" width="56" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="200" fill="#000000">&#39;LAG&#39;</text>
+        <line x1="96" y1="195" x2="180" y2="195" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="180" y1="27" x2="180" y2="195" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="237" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="237" x2="40" y2="237" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="222" width="64" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="242" fill="#000000">&#39;LEAD&#39;</text>
+        <line x1="104" y1="237" x2="180" y2="237" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="180" y1="27" x2="180" y2="237" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="279" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="279" x2="40" y2="279" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="264" width="120" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="284" fill="#000000">&#39;FIRST_VALUE&#39;</text>
+        <line x1="160" y1="279" x2="180" y2="279" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="180" y1="27" x2="180" y2="279" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="321" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="321" x2="40" y2="321" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="306" width="112" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="326" fill="#000000">&#39;LAST_VALUE&#39;</text>
+        <line x1="152" y1="321" x2="180" y2="321" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="180" y1="27" x2="180" y2="321" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="363" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="363" x2="40" y2="363" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="348" width="104" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="368" fill="#000000">&#39;NTH_VALUE&#39;</text>
+        <line x1="144" y1="363" x2="180" y2="363" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="180" y1="27" x2="180" y2="363" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="405" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="405" x2="40" y2="405" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="390" width="56" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="410" fill="#000000">&#39;SUM&#39;</text>
+        <line x1="96" y1="405" x2="180" y2="405" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="180" y1="27" x2="180" y2="405" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="447" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="447" x2="40" y2="447" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="432" width="56" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="452" fill="#000000">&#39;AVG&#39;</text>
+        <line x1="96" y1="447" x2="180" y2="447" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="180" y1="27" x2="180" y2="447" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="489" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="489" x2="40" y2="489" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="474" width="72" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="494" fill="#000000">&#39;COUNT&#39;</text>
+        <line x1="112" y1="489" x2="180" y2="489" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="180" y1="27" x2="180" y2="489" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="531" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="531" x2="40" y2="531" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="516" width="56" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="536" fill="#000000">&#39;MIN&#39;</text>
+        <line x1="96" y1="531" x2="180" y2="531" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="180" y1="27" x2="180" y2="531" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="573" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="573" x2="40" y2="573" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="558" width="56" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="578" fill="#000000">&#39;MAX&#39;</text>
+        <line x1="96" y1="573" x2="180" y2="573" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="180" y1="27" x2="180" y2="573" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="180" y1="27" x2="194" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="194,24 200,27 194,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>window-func-name ::= 'ROW_NUMBER' | 'RANK' | 'DENSE_RANK' | 'NTILE' | 'LAG' | 'LEAD' | 'FIRST_VALUE' | 'LAST_VALUE' | 'NTH_VALUE' | 'SUM' | 'AVG' | 'COUNT' | 'MIN' | 'MAX'</code></div>
+  </div>
+
+  <div class="rule" id="rule-arg-list">
+    <h3>arg-list</h3>
+    <div class="diagram">
+      <svg width="384" height="70" viewBox="0 0 384 70">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <rect x="20" y="12" width="96" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-expression"><text x="28" y="32" fill="#2c5aa0">expression</text></a>
+        <line x1="116" y1="27" x2="136" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="156" y="12" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="164" y="32" fill="#000000">&#39;,&#39;</text>
+        <line x1="196" y1="27" x2="216" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="216" y="12" width="96" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-expression"><text x="224" y="32" fill="#2c5aa0">expression</text></a>
+        <line x1="136" y1="27" x2="156" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="312" y1="27" x2="332" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="312" y1="27" x2="312" y2="54" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="156" y1="54" x2="312" y2="54" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="156" y1="27" x2="156" y2="54" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="136" y1="27" x2="136" y2="2" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="136" y1="2" x2="332" y2="2" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="332" y1="2" x2="332" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="334" y="32" fill="#999">*</text>
+        <line x1="344" y1="27" x2="358" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="358,24 364,27 358,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>arg-list ::= expression ( ',' expression )*</code></div>
+  </div>
+
+  <div class="rule" id="rule-over-clause">
+    <h3>over-clause</h3>
+    <div class="diagram">
+      <svg width="828" height="54" viewBox="0 0 828 54">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <rect x="20" y="12" width="64" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="28" y="32" fill="#000000">&#39;OVER&#39;</text>
+        <line x1="84" y1="27" x2="104" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="104" y="12" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="112" y="32" fill="#000000">&#39;(&#39;</text>
+        <line x1="144" y1="27" x2="164" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="184" y="12" width="144" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-partition-clause"><text x="192" y="32" fill="#2c5aa0">partition-clause</text></a>
+        <line x1="164" y1="27" x2="184" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="328" y1="27" x2="348" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="164" y1="27" x2="164" y2="2" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="164" y1="2" x2="348" y2="2" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="348" y1="2" x2="348" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="350" y="32" fill="#999">?</text>
+        <line x1="360" y1="27" x2="380" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="400" y="12" width="112" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-order-clause"><text x="408" y="32" fill="#2c5aa0">order-clause</text></a>
+        <line x1="380" y1="27" x2="400" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="512" y1="27" x2="532" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="380" y1="27" x2="380" y2="2" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="380" y1="2" x2="532" y2="2" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="532" y1="2" x2="532" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="534" y="32" fill="#999">?</text>
+        <line x1="544" y1="27" x2="564" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="584" y="12" width="112" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-frame-clause"><text x="592" y="32" fill="#2c5aa0">frame-clause</text></a>
+        <line x1="564" y1="27" x2="584" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="696" y1="27" x2="716" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="564" y1="27" x2="564" y2="2" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="564" y1="2" x2="716" y2="2" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="716" y1="2" x2="716" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="718" y="32" fill="#999">?</text>
+        <line x1="728" y1="27" x2="748" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="748" y="12" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="756" y="32" fill="#000000">&#39;)&#39;</text>
+        <line x1="788" y1="27" x2="802" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="802,24 808,27 802,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>over-clause ::= 'OVER' '(' partition-clause? order-clause? frame-clause? ')'</code></div>
+  </div>
+
+  <div class="rule" id="rule-partition-clause">
+    <h3>partition-clause</h3>
+    <div class="diagram">
+      <svg width="356" height="54" viewBox="0 0 356 54">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <rect x="20" y="12" width="104" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="28" y="32" fill="#000000">&#39;PARTITION&#39;</text>
+        <line x1="124" y1="27" x2="144" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="144" y="12" width="48" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="152" y="32" fill="#000000">&#39;BY&#39;</text>
+        <line x1="192" y1="27" x2="212" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="212" y="12" width="104" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-column-list"><text x="220" y="32" fill="#2c5aa0">column-list</text></a>
+        <line x1="316" y1="27" x2="330" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="330,24 336,27 330,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>partition-clause ::= 'PARTITION' 'BY' column-list</code></div>
+  </div>
+
+  <div class="rule" id="rule-column-list">
+    <h3>column-list</h3>
+    <div class="diagram">
+      <svg width="400" height="70" viewBox="0 0 400 70">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <rect x="20" y="12" width="104" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-column-name"><text x="28" y="32" fill="#2c5aa0">column-name</text></a>
+        <line x1="124" y1="27" x2="144" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="164" y="12" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="172" y="32" fill="#000000">&#39;,&#39;</text>
+        <line x1="204" y1="27" x2="224" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="224" y="12" width="104" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-column-name"><text x="232" y="32" fill="#2c5aa0">column-name</text></a>
+        <line x1="144" y1="27" x2="164" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="328" y1="27" x2="348" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="328" y1="27" x2="328" y2="54" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="164" y1="54" x2="328" y2="54" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="164" y1="27" x2="164" y2="54" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="144" y1="27" x2="144" y2="2" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="144" y1="2" x2="348" y2="2" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="348" y1="2" x2="348" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="350" y="32" fill="#999">*</text>
+        <line x1="360" y1="27" x2="374" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="374,24 380,27 374,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>column-list ::= column-name ( ',' column-name )*</code></div>
+  </div>
+
+  <div class="rule" id="rule-order-clause">
+    <h3>order-clause</h3>
+    <div class="diagram">
+      <svg width="544" height="70" viewBox="0 0 544 70">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <rect x="20" y="12" width="72" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="28" y="32" fill="#000000">&#39;ORDER&#39;</text>
+        <line x1="92" y1="27" x2="112" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="112" y="12" width="48" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="120" y="32" fill="#000000">&#39;BY&#39;</text>
+        <line x1="160" y1="27" x2="180" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="180" y="12" width="96" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-order-item"><text x="188" y="32" fill="#2c5aa0">order-item</text></a>
+        <line x1="276" y1="27" x2="296" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="316" y="12" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="324" y="32" fill="#000000">&#39;,&#39;</text>
+        <line x1="356" y1="27" x2="376" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="376" y="12" width="96" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-order-item"><text x="384" y="32" fill="#2c5aa0">order-item</text></a>
+        <line x1="296" y1="27" x2="316" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="472" y1="27" x2="492" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="472" y1="27" x2="472" y2="54" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="316" y1="54" x2="472" y2="54" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="316" y1="27" x2="316" y2="54" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="296" y1="27" x2="296" y2="2" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="296" y1="2" x2="492" y2="2" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="492" y1="2" x2="492" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="494" y="32" fill="#999">*</text>
+        <line x1="504" y1="27" x2="518" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="518,24 524,27 518,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>order-clause ::= 'ORDER' 'BY' order-item ( ',' order-item )*</code></div>
+  </div>
+
+  <div class="rule" id="rule-order-item">
+    <h3>order-item</h3>
+    <div class="diagram">
+      <svg width="616" height="96" viewBox="0 0 616 96">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <rect x="20" y="12" width="104" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-column-name"><text x="28" y="32" fill="#2c5aa0">column-name</text></a>
+        <line x1="124" y1="27" x2="144" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="164" y1="27" x2="164" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="164" y1="27" x2="184" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="184" y="12" width="56" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="192" y="32" fill="#000000">&#39;ASC&#39;</text>
+        <line x1="240" y1="27" x2="268" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="268" y1="27" x2="268" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="164" y1="27" x2="164" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="164" y1="69" x2="184" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="184" y="54" width="64" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="192" y="74" fill="#000000">&#39;DESC&#39;</text>
+        <line x1="248" y1="69" x2="268" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="268" y1="27" x2="268" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="144" y1="27" x2="164" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="268" y1="27" x2="288" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="144" y1="27" x2="144" y2="2" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="144" y1="2" x2="288" y2="2" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="288" y1="2" x2="288" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="290" y="32" fill="#999">?</text>
+        <line x1="300" y1="27" x2="320" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="340" y="12" width="72" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="348" y="32" fill="#000000">&#39;NULLS&#39;</text>
+        <line x1="412" y1="27" x2="432" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="432" y1="27" x2="432" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="432" y1="27" x2="452" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="452" y="12" width="72" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="460" y="32" fill="#000000">&#39;FIRST&#39;</text>
+        <line x1="524" y1="27" x2="544" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="544" y1="27" x2="544" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="432" y1="27" x2="432" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="432" y1="69" x2="452" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="452" y="54" width="64" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="460" y="74" fill="#000000">&#39;LAST&#39;</text>
+        <line x1="516" y1="69" x2="544" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="544" y1="27" x2="544" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="320" y1="27" x2="340" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="544" y1="27" x2="564" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="320" y1="27" x2="320" y2="2" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="320" y1="2" x2="564" y2="2" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="564" y1="2" x2="564" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="566" y="32" fill="#999">?</text>
+        <line x1="576" y1="27" x2="590" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="590,24 596,27 590,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>order-item ::= column-name ( 'ASC' | 'DESC' )? ( 'NULLS' ( 'FIRST' | 'LAST' ) )?</code></div>
+  </div>
+
+  <div class="rule" id="rule-frame-clause">
+    <h3>frame-clause</h3>
+    <div class="diagram">
+      <svg width="288" height="54" viewBox="0 0 288 54">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <rect x="20" y="12" width="96" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-frame-type"><text x="28" y="32" fill="#2c5aa0">frame-type</text></a>
+        <line x1="116" y1="27" x2="136" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="136" y="12" width="112" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-frame-extent"><text x="144" y="32" fill="#2c5aa0">frame-extent</text></a>
+        <line x1="248" y1="27" x2="262" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="262,24 268,27 262,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>frame-clause ::= frame-type frame-extent</code></div>
+  </div>
+
+  <div class="rule" id="rule-frame-type">
+    <h3>frame-type</h3>
+    <div class="diagram">
+      <svg width="172" height="96" viewBox="0 0 172 96">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <line x1="20" y1="27" x2="20" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="40" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="12" width="64" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="32" fill="#000000">&#39;ROWS&#39;</text>
+        <line x1="104" y1="27" x2="132" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="132" y1="27" x2="132" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="69" x2="40" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="54" width="72" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="74" fill="#000000">&#39;RANGE&#39;</text>
+        <line x1="112" y1="69" x2="132" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="132" y1="27" x2="132" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="132" y1="27" x2="146" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="146,24 152,27 146,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>frame-type ::= 'ROWS' | 'RANGE'</code></div>
+  </div>
+
+  <div class="rule" id="rule-frame-extent">
+    <h3>frame-extent</h3>
+    <div class="diagram">
+      <svg width="512" height="96" viewBox="0 0 512 96">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <line x1="20" y1="27" x2="20" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="40" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="12" width="88" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="32" fill="#000000">&#39;BETWEEN&#39;</text>
+        <line x1="128" y1="27" x2="148" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="148" y="12" width="104" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-frame-bound"><text x="156" y="32" fill="#2c5aa0">frame-bound</text></a>
+        <line x1="252" y1="27" x2="272" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="272" y="12" width="56" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="280" y="32" fill="#000000">&#39;AND&#39;</text>
+        <line x1="328" y1="27" x2="348" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="348" y="12" width="104" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-frame-bound"><text x="356" y="32" fill="#2c5aa0">frame-bound</text></a>
+        <line x1="452" y1="27" x2="472" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="472" y1="27" x2="472" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="69" x2="40" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="54" width="104" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-frame-bound"><text x="48" y="74" fill="#2c5aa0">frame-bound</text></a>
+        <line x1="144" y1="69" x2="472" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="472" y1="27" x2="472" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="472" y1="27" x2="486" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="486,24 492,27 486,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>frame-extent ::= 'BETWEEN' frame-bound 'AND' frame-bound | frame-bound</code></div>
+  </div>
+
+  <div class="rule" id="rule-frame-bound">
+    <h3>frame-bound</h3>
+    <div class="diagram">
+      <svg width="328" height="222" viewBox="0 0 328 222">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <line x1="20" y1="27" x2="20" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="40" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="12" width="104" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="32" fill="#000000">&#39;UNBOUNDED&#39;</text>
+        <line x1="144" y1="27" x2="164" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="164" y="12" width="104" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="172" y="32" fill="#000000">&#39;PRECEDING&#39;</text>
+        <line x1="268" y1="27" x2="288" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="288" y1="27" x2="288" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="69" x2="40" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="54" width="104" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="74" fill="#000000">&#39;UNBOUNDED&#39;</text>
+        <line x1="144" y1="69" x2="164" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="164" y="54" width="104" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="172" y="74" fill="#000000">&#39;FOLLOWING&#39;</text>
+        <line x1="268" y1="69" x2="288" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="288" y1="27" x2="288" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="111" x2="40" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="96" width="88" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="116" fill="#000000">&#39;CURRENT&#39;</text>
+        <line x1="128" y1="111" x2="148" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="148" y="96" width="56" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="156" y="116" fill="#000000">&#39;ROW&#39;</text>
+        <line x1="204" y1="111" x2="288" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="288" y1="27" x2="288" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="153" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="153" x2="40" y2="153" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="138" width="64" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-number"><text x="48" y="158" fill="#2c5aa0">number</text></a>
+        <line x1="104" y1="153" x2="124" y2="153" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="124" y="138" width="104" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="132" y="158" fill="#000000">&#39;PRECEDING&#39;</text>
+        <line x1="228" y1="153" x2="288" y2="153" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="288" y1="27" x2="288" y2="153" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="195" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="195" x2="40" y2="195" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="180" width="64" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-number"><text x="48" y="200" fill="#2c5aa0">number</text></a>
+        <line x1="104" y1="195" x2="124" y2="195" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="124" y="180" width="104" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="132" y="200" fill="#000000">&#39;FOLLOWING&#39;</text>
+        <line x1="228" y1="195" x2="288" y2="195" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="288" y1="27" x2="288" y2="195" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="288" y1="27" x2="302" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="302,24 308,27 302,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>frame-bound ::= 'UNBOUNDED' 'PRECEDING' | 'UNBOUNDED' 'FOLLOWING' | 'CURRENT' 'ROW' | number 'PRECEDING' | number 'FOLLOWING'</code></div>
+  </div>
+
+  <div class="rule" id="rule-column-name">
+    <h3>column-name</h3>
+    <div class="diagram">
+      <svg width="156" height="54" viewBox="0 0 156 54">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <rect x="20" y="12" width="96" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-identifier"><text x="28" y="32" fill="#2c5aa0">identifier</text></a>
+        <line x1="116" y1="27" x2="130" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="130,24 136,27 130,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>column-name ::= identifier</code></div>
+  </div>
+
+  <div class="rule" id="rule-identifier">
+    <h3>identifier</h3>
+    <div class="diagram">
+      <svg width="252" height="54" viewBox="0 0 252 54">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <rect x="20" y="12" width="192" height="30" rx="10" ry="10" fill="#e6e6fa" stroke="#3c3c3c" stroke-width="1.5" stroke-dasharray="4,3" />
+        <text x="28" y="32" fill="#000000">[a-zA-Z_][a-zA-Z0-9_]*</text>
+        <line x1="212" y1="27" x2="226" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="226,24 232,27 226,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>identifier ::= /[a-zA-Z_][a-zA-Z0-9_]*/</code></div>
+  </div>
+
+  <div class="rule" id="rule-expression">
+    <h3>expression</h3>
+    <div class="diagram">
+      <svg width="544" height="70" viewBox="0 0 544 70">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <rect x="20" y="12" width="136" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-expression-term"><text x="28" y="32" fill="#2c5aa0">expression-term</text></a>
+        <line x1="156" y1="27" x2="176" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="196" y="12" width="120" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-expression-op"><text x="204" y="32" fill="#2c5aa0">expression-op</text></a>
+        <line x1="316" y1="27" x2="336" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="336" y="12" width="136" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-expression-term"><text x="344" y="32" fill="#2c5aa0">expression-term</text></a>
+        <line x1="176" y1="27" x2="196" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="472" y1="27" x2="492" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="472" y1="27" x2="472" y2="54" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="196" y1="54" x2="472" y2="54" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="196" y1="27" x2="196" y2="54" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="176" y1="27" x2="176" y2="2" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="176" y1="2" x2="492" y2="2" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="492" y1="2" x2="492" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="494" y="32" fill="#999">*</text>
+        <line x1="504" y1="27" x2="518" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="518,24 524,27 518,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>expression ::= expression-term ( expression-op expression-term )*</code></div>
+  </div>
+
+  <div class="rule" id="rule-expression-term">
+    <h3>expression-term</h3>
+    <div class="diagram">
+      <svg width="316" height="180" viewBox="0 0 316 180">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <line x1="20" y1="27" x2="20" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="40" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="12" width="120" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-literal-value"><text x="48" y="32" fill="#2c5aa0">literal-value</text></a>
+        <line x1="160" y1="27" x2="276" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="276" y1="27" x2="276" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="69" x2="40" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="54" width="104" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-column-name"><text x="48" y="74" fill="#2c5aa0">column-name</text></a>
+        <line x1="144" y1="69" x2="276" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="276" y1="27" x2="276" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="111" x2="40" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="96" width="120" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-function-call"><text x="48" y="116" fill="#2c5aa0">function-call</text></a>
+        <line x1="160" y1="111" x2="276" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="276" y1="27" x2="276" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="153" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="153" x2="40" y2="153" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="138" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="158" fill="#000000">&#39;(&#39;</text>
+        <line x1="80" y1="153" x2="100" y2="153" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="100" y="138" width="96" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-expression"><text x="108" y="158" fill="#2c5aa0">expression</text></a>
+        <line x1="196" y1="153" x2="216" y2="153" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="216" y="138" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="224" y="158" fill="#000000">&#39;)&#39;</text>
+        <line x1="256" y1="153" x2="276" y2="153" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="276" y1="27" x2="276" y2="153" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="276" y1="27" x2="290" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="290,24 296,27 290,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>expression-term ::= literal-value | column-name | function-call | '(' expression ')'</code></div>
+  </div>
+
+  <div class="rule" id="rule-expression-op">
+    <h3>expression-op</h3>
+    <div class="diagram">
+      <svg width="148" height="222" viewBox="0 0 148 222">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <line x1="20" y1="27" x2="20" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="40" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="12" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="32" fill="#000000">&#39;+&#39;</text>
+        <line x1="80" y1="27" x2="108" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="108" y1="27" x2="108" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="69" x2="40" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="54" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="74" fill="#000000">&#39;-&#39;</text>
+        <line x1="80" y1="69" x2="108" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="108" y1="27" x2="108" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="111" x2="40" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="96" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="116" fill="#000000">&#39;*&#39;</text>
+        <line x1="80" y1="111" x2="108" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="108" y1="27" x2="108" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="153" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="153" x2="40" y2="153" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="138" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="158" fill="#000000">&#39;/&#39;</text>
+        <line x1="80" y1="153" x2="108" y2="153" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="108" y1="27" x2="108" y2="153" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="195" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="195" x2="40" y2="195" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="180" width="48" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="200" fill="#000000">&#39;||&#39;</text>
+        <line x1="88" y1="195" x2="108" y2="195" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="108" y1="27" x2="108" y2="195" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="108" y1="27" x2="122" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="122,24 128,27 122,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>expression-op ::= '+' | '-' | '*' | '/' | '||'</code></div>
+  </div>
+
+  <div class="rule" id="rule-function-call">
+    <h3>function-call</h3>
+    <div class="diagram">
+      <svg width="712" height="96" viewBox="0 0 712 96">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <rect x="20" y="12" width="96" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-identifier"><text x="28" y="32" fill="#2c5aa0">identifier</text></a>
+        <line x1="116" y1="27" x2="136" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="136" y="12" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="144" y="32" fill="#000000">&#39;(&#39;</text>
+        <line x1="176" y1="27" x2="196" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="216" y1="27" x2="216" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="216" y1="27" x2="236" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="236" y="12" width="96" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-expression"><text x="244" y="32" fill="#2c5aa0">expression</text></a>
+        <line x1="332" y1="27" x2="352" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="372" y="12" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="380" y="32" fill="#000000">&#39;,&#39;</text>
+        <line x1="412" y1="27" x2="432" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="432" y="12" width="96" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-expression"><text x="440" y="32" fill="#2c5aa0">expression</text></a>
+        <line x1="352" y1="27" x2="372" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="528" y1="27" x2="548" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="528" y1="27" x2="528" y2="54" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="372" y1="54" x2="528" y2="54" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="372" y1="27" x2="372" y2="54" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="352" y1="27" x2="352" y2="2" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="352" y1="2" x2="548" y2="2" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="548" y1="2" x2="548" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="550" y="32" fill="#999">*</text>
+        <line x1="560" y1="27" x2="580" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="580" y1="27" x2="580" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="216" y1="27" x2="216" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="216" y1="69" x2="236" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="236" y="54" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="244" y="74" fill="#000000">&#39;*&#39;</text>
+        <line x1="276" y1="69" x2="580" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="580" y1="27" x2="580" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="196" y1="27" x2="216" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="580" y1="27" x2="600" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="196" y1="27" x2="196" y2="2" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="196" y1="2" x2="600" y2="2" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="600" y1="2" x2="600" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="602" y="32" fill="#999">?</text>
+        <line x1="612" y1="27" x2="632" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="632" y="12" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="640" y="32" fill="#000000">&#39;)&#39;</text>
+        <line x1="672" y1="27" x2="686" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="686,24 692,27 686,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>function-call ::= identifier '(' ( expression ( ',' expression )* | '*' )? ')'</code></div>
+  </div>
+
+  <div class="rule" id="rule-literal-value">
+    <h3>literal-value</h3>
+    <div class="diagram">
+      <svg width="228" height="138" viewBox="0 0 228 138">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <line x1="20" y1="27" x2="20" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="40" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="12" width="64" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-number"><text x="48" y="32" fill="#2c5aa0">number</text></a>
+        <line x1="104" y1="27" x2="188" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="188" y1="27" x2="188" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="69" x2="40" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="54" width="128" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-string-literal"><text x="48" y="74" fill="#2c5aa0">string-literal</text></a>
+        <line x1="168" y1="69" x2="188" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="188" y1="27" x2="188" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="111" x2="40" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="96" width="64" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="116" fill="#000000">&#39;NULL&#39;</text>
+        <line x1="104" y1="111" x2="188" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="188" y1="27" x2="188" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="188" y1="27" x2="202" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="202,24 208,27 202,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>literal-value ::= number | string-literal | 'NULL'</code></div>
+  </div>
+
+  <div class="rule" id="rule-string-literal">
+    <h3>string-literal</h3>
+    <div class="diagram">
+      <svg width="132" height="54" viewBox="0 0 132 54">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <rect x="20" y="12" width="72" height="30" rx="10" ry="10" fill="#e6e6fa" stroke="#3c3c3c" stroke-width="1.5" stroke-dasharray="4,3" />
+        <text x="28" y="32" fill="#000000">&#39;[^&#39;]*&#39;</text>
+        <line x1="92" y1="27" x2="106" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="106,24 112,27 106,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>string-literal ::= /'[^']*'/</code></div>
+  </div>
+
+  <div class="rule" id="rule-number">
+    <h3>number</h3>
+    <div class="diagram">
+      <svg width="124" height="54" viewBox="0 0 124 54">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <rect x="20" y="12" width="64" height="30" rx="10" ry="10" fill="#e6e6fa" stroke="#3c3c3c" stroke-width="1.5" stroke-dasharray="4,3" />
+        <text x="28" y="32" fill="#000000">[0-9]+</text>
+        <line x1="84" y1="27" x2="98" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="98,24 104,27 98,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>number ::= /[0-9]+/</code></div>
+  </div>
+
+</body>
+</html>

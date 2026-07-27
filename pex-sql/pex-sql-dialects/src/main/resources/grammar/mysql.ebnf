@@ -1,0 +1,48 @@
+grammar sql-mysql;
+
+// MySQL-specific SQL extensions
+
+mysql-extension ::= replace-into
+                  | on-duplicate-key
+                  | show-statement
+                  | describe-statement ;
+
+// REPLACE INTO (insert or replace if PK conflict)
+replace-into ::= 'REPLACE' 'INTO' table-name
+                 '(' column-list ')'
+                 'VALUES' value-row (',' value-row)* ;
+
+// ON DUPLICATE KEY UPDATE (upsert)
+on-duplicate-key ::= insert-statement
+                     'ON' 'DUPLICATE' 'KEY' 'UPDATE'
+                     set-list ;
+
+// SHOW statements
+show-statement ::= show-tables | show-databases | show-columns ;
+show-tables ::= 'SHOW' 'TABLES' ;
+show-databases ::= 'SHOW' 'DATABASES' ;
+show-columns ::= 'SHOW' 'COLUMNS' 'FROM' table-name ;
+
+// DESCRIBE / DESC
+describe-statement ::= ('DESCRIBE' | 'DESC') table-name ;
+
+// Common
+insert-statement ::= 'INSERT' 'INTO' table-name
+                     '(' column-list ')'
+                     'VALUES' value-row (',' value-row)* ;
+
+set-list ::= set-item (',' set-item)* ;
+set-item ::= column-name '=' expression ;
+
+value-row ::= '(' literal-value (',' literal-value)* ')' ;
+column-list ::= column-name (',' column-name)* ;
+table-name ::= identifier ;
+column-name ::= identifier ;
+identifier ::= /[a-zA-Z_][a-zA-Z0-9_]*/ ;
+literal-value ::= number | string-literal | 'NULL' | 'TRUE' | 'FALSE' ;
+expression ::= expression-term (expression-op expression-term)* ;
+expression-term ::= literal-value | identifier ('.' identifier)? | function-call | '(' expression ')' | 'NOT' expression-term ;
+expression-op ::= '+' | '-' | '*' | '/' | '=' | '<' | '>' | '<=' | '>=' | '<>' | '!=' | 'AND' | 'OR' | 'LIKE' | 'IS' | '||' ;
+function-call ::= identifier '(' (expression (',' expression)* | '*')? ')' ;
+number ::= /[0-9]+/ ;
+string-literal ::= /'[^']*'/ ;

@@ -1,0 +1,48 @@
+grammar sql-mssql;
+
+// Microsoft SQL Server specific extensions
+
+mssql-extension ::= top-clause
+                   | variable-decl
+                   | set-variable
+                   | try-catch
+                   | output-clause
+                   | print-statement ;
+
+// TOP clause
+top-clause ::= 'SELECT' 'TOP' number 'PERCENT'? ('WITH' 'TIES')? select-list ;
+
+// Variable declaration and assignment
+variable-decl ::= 'DECLARE' variable-name data-type ;
+set-variable ::= 'SET' variable-name '=' expression ;
+variable-name ::= /@[a-zA-Z_][a-zA-Z0-9_]*/ ;
+
+// TRY/CATCH error handling
+try-catch ::= 'BEGIN' 'TRY' statement-block 'END' 'TRY'
+              'BEGIN' 'CATCH' statement-block 'END' 'CATCH' ;
+
+// OUTPUT clause (on INSERT/UPDATE/DELETE)
+output-clause ::= 'OUTPUT' output-column-list ;
+output-column-list ::= output-column (',' output-column)* ;
+output-column ::= ('INSERTED' | 'DELETED') '.' column-name ;
+
+// PRINT
+print-statement ::= 'PRINT' (variable-name | string-literal | number) ;
+
+// Common
+statement-block ::= statement+ ;
+select-list ::= select-item (',' select-item)* ;
+select-item ::= '*' | expression ('AS'? identifier)? ;
+data-type ::= 'INT' | 'INTEGER' | 'BIGINT' | 'FLOAT' | 'DECIMAL'
+            | 'VARCHAR' ('(' number ')')? | 'NVARCHAR' ('(' number ')')?
+            | 'CHAR' | 'TEXT' | 'BIT' | 'DATE' | 'DATETIME' ;
+column-name ::= identifier ;
+identifier ::= /[a-zA-Z_][a-zA-Z0-9_]*/ ;
+number ::= /[0-9]+/ ;
+string-literal ::= /'[^']*'/ ;
+expression ::= expression-term (expression-op expression-term)* ;
+expression-term ::= literal-value | variable-name | identifier ('.' identifier)? | function-call | '(' expression ')' | 'NOT' expression-term ;
+expression-op ::= '+' | '-' | '*' | '/' | '=' | '<' | '>' | '<=' | '>=' | '<>' | '!=' | 'AND' | 'OR' | 'LIKE' | 'IS' | '||' ;
+function-call ::= identifier '(' (expression (',' expression)* | '*')? ')' ;
+literal-value ::= number | string-literal | 'NULL' | 'TRUE' | 'FALSE' ;
+statement ::= expression | variable-decl | set-variable | print-statement ;

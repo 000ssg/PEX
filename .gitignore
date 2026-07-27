@@ -1,0 +1,26 @@
+# Maven
+target/
+
+# Gradle
+build/
+.gradle/
+
+# Compiled
+*.class
+*.jar
+*.war
+*.ear
+
+# IDE
+*.iml
+.idea/
+.settings/
+.classpath
+.project
+nb-configuration.xml
+
+# OS / Editor
+*.swp
+*~
+.DS_Store
+*.log

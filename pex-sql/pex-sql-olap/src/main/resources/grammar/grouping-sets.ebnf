@@ -1,0 +1,17 @@
+grammar sql-grouping-sets;
+
+// GROUPING SETS, CUBE, and ROLLUP extensions for GROUP BY
+
+grouping-extension ::= grouping-sets | cube-clause | rollup-clause ;
+
+grouping-sets ::= 'GROUPING' 'SETS' '(' grouping-element-list ')' ;
+grouping-element-list ::= grouping-element (',' grouping-element)* ;
+grouping-element ::= '(' column-list? ')' | column-name ;
+
+cube-clause ::= 'CUBE' '(' column-list ')' ;
+
+rollup-clause ::= 'ROLLUP' '(' column-list ')' ;
+
+column-list ::= column-name (',' column-name)* ;
+column-name ::= identifier ;
+identifier ::= /[a-zA-Z_][a-zA-Z0-9_]*/ ;

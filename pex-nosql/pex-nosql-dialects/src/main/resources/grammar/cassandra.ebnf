@@ -1,0 +1,172 @@
+grammar nosql-cassandra;
+
+// Apache Cassandra CQL (Cassandra Query Language) Grammar
+// Implemented by: CqlParser, CqlExecutor, CassandraSession, CassandraDatabase
+
+// ─── Top-level Statement ─────────────────────────────────────────────────────
+
+cql-statement ::= ddl-statement
+                | dml-statement
+                | dcl-statement
+                | batch-statement ;
+
+// ─── DDL ─────────────────────────────────────────────────────────────────────
+
+ddl-statement ::= create-keyspace
+                | use-keyspace
+                | create-table
+                | drop-table
+                | truncate
+                | create-index ;
+
+// Keyspace
+create-keyspace ::= 'CREATE' 'KEYSPACE' ('IF' 'NOT' 'EXISTS')? keyspace-name
+                    'WITH' 'replication' '=' replication-options ;
+
+replication-options ::= '{' '\'class\'' ':' '\'' replication-class '\''
+                        (',' replication-option)* '}' ;
+replication-class   ::= 'SimpleStrategy' | 'NetworkTopologyStrategy' ;
+replication-option  ::= string ':' (string | number) ;
+
+use-keyspace ::= 'USE' keyspace-name ;
+
+// Table
+create-table ::= 'CREATE' 'TABLE' ('IF' 'NOT' 'EXISTS')? qualified-table-name
+                 '(' column-definition (',' column-definition)* ',' primary-key-def ')'
+                 ('WITH' table-options)? ;
+
+column-definition ::= column-name cql-type ;
+
+primary-key-def ::= 'PRIMARY' 'KEY' '(' partition-key (',' clustering-column)* ')' ;
+partition-key     ::= column-name | '(' column-name (',' column-name)* ')' ;
+clustering-column ::= column-name ;
+
+table-options ::= table-option ('AND' table-option)* ;
+table-option  ::= 'CLUSTERING' 'ORDER' 'BY' '(' clustering-order-entry (',' clustering-order-entry)* ')'
+                | 'COMPACT' 'STORAGE'
+                | 'gc_grace_seconds' '=' number
+                | 'bloom_filter_fp_chance' '=' number ;
+clustering-order-entry ::= column-name ('ASC' | 'DESC') ;
+
+drop-table  ::= 'DROP' 'TABLE' ('IF' 'EXISTS')? qualified-table-name ;
+truncate    ::= 'TRUNCATE' ('TABLE')? qualified-table-name ;
+create-index ::= 'CREATE' ('CUSTOM')? 'INDEX' ('IF' 'NOT' 'EXISTS')? (index-name)?
+                 'ON' qualified-table-name '(' column-name ')' ;
+
+// ─── DML ─────────────────────────────────────────────────────────────────────
+
+dml-statement ::= select-statement
+                | insert-statement
+                | update-statement
+                | delete-statement ;
+
+// SELECT
+select-statement ::= 'SELECT' select-clause
+                     'FROM' qualified-table-name
+                     ('WHERE' where-clause)?
+                     ('ORDER' 'BY' order-clause)?
+                     ('LIMIT' number)?
+                     ('ALLOW' 'FILTERING')? ;
+
+select-clause ::= ('DISTINCT')? select-list | 'COUNT' '(' '*' ')' ;
+select-list   ::= select-item (',' select-item)* ;
+select-item   ::= '*' | column-name ('AS' alias)? | 'WRITETIME' '(' column-name ')' | 'TTL' '(' column-name ')' ;
+
+where-clause  ::= predicate ('AND' predicate)* ;
+predicate     ::= column-name comparison-op value
+                | column-name 'IN' '(' value (',' value)* ')'
+                | column-name 'IN' '?' ;
+
+comparison-op ::= '=' | '!=' | '<' | '<=' | '>' | '>=' ;
+
+order-clause  ::= order-item (',' order-item)* ;
+order-item    ::= column-name ('ASC' | 'DESC')? ;
+
+// INSERT
+insert-statement ::= 'INSERT' 'INTO' qualified-table-name
+                     '(' column-list ')' 'VALUES' '(' value-list ')'
+                     ('IF' 'NOT' 'EXISTS')?
+                     ('USING' using-options)? ;
+
+column-list  ::= column-name (',' column-name)* ;
+value-list   ::= cql-value (',' cql-value)* ;
+
+using-options ::= using-option ('AND' using-option)* ;
+using-option  ::= 'TTL' (number | '?')
+                | 'TIMESTAMP' (number | '?') ;
+
+// UPDATE
+update-statement ::= 'UPDATE' qualified-table-name
+                     ('USING' using-options)?
+                     'SET' set-clause (',' set-clause)*
+                     'WHERE' where-clause
+                     ('IF' (where-clause | 'EXISTS'))? ;
+
+set-clause ::= column-name '=' cql-value
+             | column-name '+=' cql-value
+             | column-name '-=' cql-value ;
+
+// DELETE
+delete-statement ::= 'DELETE' (column-list)?
+                     'FROM' qualified-table-name
+                     ('USING' 'TIMESTAMP' (number | '?'))?
+                     'WHERE' where-clause
+                     ('IF' (where-clause | 'EXISTS'))? ;
+
+// ─── BATCH ───────────────────────────────────────────────────────────────────
+
+batch-statement ::= 'BEGIN' ('UNLOGGED' | 'COUNTER')? 'BATCH'
+                    ('USING' 'TIMESTAMP' number)?
+                    batch-statement-list
+                    'APPLY' 'BATCH' ;
+
+batch-statement-list ::= (insert-statement | update-statement | delete-statement)+ ;
+
+// ─── DCL ─────────────────────────────────────────────────────────────────────
+
+dcl-statement ::= create-role | grant-permission | revoke-permission ;
+create-role    ::= 'CREATE' 'ROLE' role-name ('WITH' role-options)? ;
+grant-permission  ::= 'GRANT' permission 'ON' resource 'TO' role-name ;
+revoke-permission ::= 'REVOKE' permission 'ON' resource 'FROM' role-name ;
+permission ::= 'ALL' 'PERMISSIONS'? | 'SELECT' | 'MODIFY' | 'AUTHORIZE' ;
+resource   ::= 'ALL' 'KEYSPACES' | 'KEYSPACE' keyspace-name | 'TABLE' qualified-table-name ;
+role-name  ::= identifier ;
+role-options ::= role-option ('AND' role-option)* ;
+role-option  ::= 'PASSWORD' '=' string | 'LOGIN' '=' boolean | 'SUPERUSER' '=' boolean ;
+
+// ─── CQL Types ───────────────────────────────────────────────────────────────
+
+cql-type ::= 'ASCII' | 'BIGINT' | 'BLOB' | 'BOOLEAN'
+           | 'COUNTER' | 'DATE' | 'DECIMAL' | 'DOUBLE'
+           | 'DURATION' | 'FLOAT' | 'FROZEN' '<' cql-type '>'
+           | 'INET' | 'INT' | 'LIST' '<' cql-type '>'
+           | 'MAP' '<' cql-type ',' cql-type '>'
+           | 'SET' '<' cql-type '>'
+           | 'SMALLINT' | 'TEXT' | 'TIME' | 'TIMESTAMP'
+           | 'TIMEUUID' | 'TINYINT' | 'TUPLE' '<' cql-type (',' cql-type)* '>'
+           | 'UUID' | 'VARCHAR' | 'VARINT' ;
+
+// ─── Values ──────────────────────────────────────────────────────────────────
+
+cql-value ::= string | number | boolean | uuid-literal | 'null'
+            | list-literal | set-literal | map-literal | '?' ;
+
+uuid-literal  ::= /[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}/
+                | 'uuid()' | 'now()' ;
+list-literal  ::= '[' (cql-value (',' cql-value)*)? ']' ;
+set-literal   ::= '{' (cql-value (',' cql-value)*)? '}' ;
+map-literal   ::= '{' (cql-value ':' cql-value (',' cql-value ':' cql-value)*)? '}' ;
+
+// ─── Common ──────────────────────────────────────────────────────────────────
+
+qualified-table-name ::= (keyspace-name '.')? table-name ;
+keyspace-name  ::= identifier ;
+table-name     ::= identifier ;
+index-name     ::= identifier ;
+column-name    ::= identifier ;
+alias          ::= identifier ;
+value          ::= cql-value ;
+boolean        ::= 'true' | 'false' ;
+string         ::= /'[^']*'/ | '"' /[^"]*/ '"' ;
+number         ::= /-?[0-9]+(\.[0-9]+)?/ ;
+identifier     ::= /[a-zA-Z_][a-zA-Z0-9_]*/ ;

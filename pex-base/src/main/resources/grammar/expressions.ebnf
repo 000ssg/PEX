@@ -1,0 +1,51 @@
+grammar pex-expressions;
+
+// Core expression language for the PEX framework
+// Defines the full expression grammar with operator precedence
+
+program ::= statement+ ;
+
+statement ::= assignment
+            | conditional
+            | loop
+            | return-statement
+            | expression ;
+
+block ::= '{' statement* '}' ;
+
+// Assignment
+assignment ::= identifier '=' expression ;
+
+// Control flow
+conditional ::= 'if' '(' expression ')' block ('else' block)? ;
+loop ::= 'while' '(' expression ')' block ;
+return-statement ::= 'return' expression? ;
+
+// Expression precedence (lowest to highest)
+expression ::= or-expr ;
+
+or-expr ::= and-expr ('||' and-expr)* ;
+and-expr ::= bitwise-or-expr ('&&' bitwise-or-expr)* ;
+
+bitwise-or-expr ::= bitwise-xor-expr ('|' bitwise-xor-expr)* ;
+bitwise-xor-expr ::= bitwise-and-expr ('^' bitwise-and-expr)* ;
+bitwise-and-expr ::= equality-expr ('&' equality-expr)* ;
+
+equality-expr ::= relational-expr (('==' | '!=') relational-expr)* ;
+relational-expr ::= shift-expr (('<=' | '>=' | '<' | '>') shift-expr)* ;
+
+shift-expr ::= addition-expr (('>>>' | '<<' | '>>') addition-expr)* ;
+
+addition-expr ::= multiplication-expr (('+' | '-') multiplication-expr)* ;
+multiplication-expr ::= unary-expr (('*' | '/' | '%') unary-expr)* ;
+
+unary-expr ::= ('!' | '-' | '~' | '+') unary-expr
+             | primary ;
+
+primary ::= literal
+           | function-call
+           | identifier
+           | index-access
+           | '(' expression ')' ;
+
+index-access ::= identifier '[' expression ']' ;

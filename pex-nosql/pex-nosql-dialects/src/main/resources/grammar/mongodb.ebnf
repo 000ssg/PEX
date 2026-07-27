@@ -1,0 +1,112 @@
+grammar nosql-mongodb;
+
+// MongoDB Dialect Grammar
+// Covers MongoQuery fluent builder, MongoUpdate fluent builder, and MongoPipeline builder
+// Implemented by: MongoQuery, MongoUpdate, MongoPipeline, MongoCollection, MongoDbDatabase
+
+// ─── MongoQuery Builder DSL ───────────────────────────────────────────────────
+
+mongo-query ::= query-factory | query-chain ;
+
+query-factory ::= 'MongoQuery.empty()'
+                | 'MongoQuery.eq('          field ',' value ')'
+                | 'MongoQuery.ne('          field ',' value ')'
+                | 'MongoQuery.gt('          field ',' value ')'
+                | 'MongoQuery.gte('         field ',' value ')'
+                | 'MongoQuery.lt('          field ',' value ')'
+                | 'MongoQuery.lte('         field ',' value ')'
+                | 'MongoQuery.in('          field ',' list ')'
+                | 'MongoQuery.nin('         field ',' list ')'
+                | 'MongoQuery.exists('      field ')'
+                | 'MongoQuery.regex('       field ',' pattern ')'
+                | 'MongoQuery.and('         mongo-query (',' mongo-query)+ ')'
+                | 'MongoQuery.or('          mongo-query (',' mongo-query)+ ')'
+                | 'MongoQuery.where('       field ')' field-chain ;
+
+// Fluent chain: MongoQuery.where("age").gt(25).and("name").regex("^A")
+field-chain ::= comparison-chain ('.' chained-condition)* ;
+comparison-chain ::= '.eq(' value ')' | '.ne(' value ')' | '.gt(' value ')' | '.gte(' value ')'
+                   | '.lt(' value ')' | '.lte(' value ')' | '.in(' list ')' | '.nin(' list ')'
+                   | '.exists()' | '.regex(' pattern ')' ;
+chained-condition ::= 'and(' field ')' field-chain
+                    | 'or('  field ')' field-chain ;
+
+// ─── MongoUpdate Builder DSL ──────────────────────────────────────────────────
+
+mongo-update ::= update-factory update-chain* ;
+
+update-factory ::= 'MongoUpdate.set('      field ',' value ')'
+                 | 'MongoUpdate.unset('    field ')'
+                 | 'MongoUpdate.inc('      field ',' number ')'
+                 | 'MongoUpdate.push('     field ',' value ')'
+                 | 'MongoUpdate.pull('     field ',' value ')'
+                 | 'MongoUpdate.addToSet(' field ',' value ')' ;
+
+update-chain ::= '.set('      field ',' value ')'
+               | '.unset('    field ')'
+               | '.inc('      field ',' number ')'
+               | '.push('     field ',' value ')'
+               | '.pull('     field ',' value ')'
+               | '.addToSet(' field ',' value ')' ;
+
+// ─── MongoPipeline Builder DSL ────────────────────────────────────────────────
+
+mongo-pipeline ::= pipeline-factory pipeline-chain* ;
+
+pipeline-factory ::= 'MongoPipeline.match('     mongo-query ')'
+                   | 'MongoPipeline.sort('      field ',' direction ')'
+                   | 'MongoPipeline.limit('     number ')'
+                   | 'MongoPipeline.skip('      number ')'
+                   | 'MongoPipeline.unwind('    field-ref ')'
+                   | 'MongoPipeline.group('     group-id accumulator-field* ')' ;
+
+pipeline-chain ::= '.match('     mongo-query ')'
+                 | '.sort('      field ',' direction ')'
+                 | '.limit('     number ')'
+                 | '.skip('      number ')'
+                 | '.unwind('    field-ref ')'
+                 | '.project('   string (',' string)* ')'
+                 | '.group('     group-id accumulator-expr ')' ;
+
+group-id       ::= field-ref | 'null' ;
+accumulator-expr ::= ',' string ',' accumulator-call ;
+accumulator-call ::= 'MongoPipeline.sum(' (field-ref | number) ')'
+                   | 'MongoPipeline.avg(' field-ref ')'
+                   | 'MongoPipeline.min(' field-ref ')'
+                   | 'MongoPipeline.max(' field-ref ')'
+                   | 'MongoPipeline.push(' field-ref ')' ;
+
+// ─── MongoCollection API ──────────────────────────────────────────────────────
+
+mongo-collection-op ::= find-op | write-op | count-op | distinct-op | aggregate-op | index-op ;
+
+find-op      ::= 'find(' mongo-query? ')'
+               | 'findOne(' mongo-query? ')'
+               | 'countDocuments(' mongo-query? ')' ;
+
+write-op     ::= 'insertOne(' document ')'
+               | 'insertMany(' '[' document (',' document)* ']' ')'
+               | 'updateOne('   mongo-query ',' mongo-update ')'
+               | 'updateMany('  mongo-query ',' mongo-update ')'
+               | 'replaceOne('  mongo-query ',' document ')'
+               | 'deleteOne('   mongo-query ')'
+               | 'deleteMany('  mongo-query ')' ;
+
+count-op     ::= 'count()' | 'count(' mongo-query ')' ;
+distinct-op  ::= 'distinct(' field ')' | 'distinct(' field ',' mongo-query ')' ;
+aggregate-op ::= 'aggregate(' mongo-pipeline ')' ;
+index-op     ::= 'createIndex(' field ',' boolean (',' boolean)? ')' ;
+
+// ─── Common ──────────────────────────────────────────────────────────────────
+
+field      ::= string ;
+field-ref  ::= '"$' identifier '"' ;
+list       ::= 'List.of(' value (',' value)* ')' ;
+pattern    ::= string ;
+direction  ::= '1' | '-1' ;
+document   ::= 'Document.of(' (string ',' value (',' string ',' value)*)? ')' | 'new Document()' ;
+value      ::= string | number | boolean | 'null' ;
+boolean    ::= 'true' | 'false' ;
+string     ::= '"' /[^"\\]*/ '"' ;
+number     ::= /-?[0-9]+(\.[0-9]+)?/ ;
+identifier ::= /[a-zA-Z_][a-zA-Z0-9_]*/ ;

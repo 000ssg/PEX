@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Grammar: sql-transactions</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 20px 40px;
+      color: #333;
+      background: #fff;
+    }
+    h1 { border-bottom: 2px solid #2c5aa0; padding-bottom: 10px; color: #2c5aa0; }
+    h2 { color: #444; margin-top: 30px; }
+    h3 { color: #2c5aa0; margin-top: 0; }
+    .toc { column-count: 2; column-gap: 30px; }
+    .toc a { color: #2c5aa0; text-decoration: none; }
+    .toc a:hover { text-decoration: underline; }
+    .rule {
+      border-top: 1px solid #ddd;
+      padding: 20px 0;
+    }
+    .diagram {
+      background: #f8f8f8;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      padding: 16px;
+      margin: 12px 0;
+      overflow-x: auto;
+    }
+    .diagram svg { display: block; }
+    .bnf {
+      background: #f5f5f5;
+      border-left: 3px solid #2c5aa0;
+      padding: 8px 12px;
+      margin: 12px 0;
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 13px;
+      white-space: pre-wrap;
+    }
+    .bnf code { color: #333; }
+    svg text { font-family: 'Consolas', 'Monaco', monospace; font-size: 13px; }
+    svg a text { fill: #2c5aa0; }
+    svg a:hover text { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <h1>Grammar: sql-transactions</h1>
+  <h2>Table of Contents</h2>
+  <ul class="toc">
+    <li><a href="#rule-transaction-statement">transaction-statement</a></li>
+    <li><a href="#rule-begin-transaction">begin-transaction</a></li>
+    <li><a href="#rule-commit-transaction">commit-transaction</a></li>
+    <li><a href="#rule-rollback-transaction">rollback-transaction</a></li>
+    <li><a href="#rule-savepoint-statement">savepoint-statement</a></li>
+    <li><a href="#rule-release-savepoint">release-savepoint</a></li>
+    <li><a href="#rule-savepoint-name">savepoint-name</a></li>
+    <li><a href="#rule-identifier">identifier</a></li>
+  </ul>
+
+  <div class="rule" id="rule-transaction-statement">
+    <h3>transaction-statement</h3>
+    <div class="diagram">
+      <svg width="276" height="222" viewBox="0 0 276 222">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <line x1="20" y1="27" x2="20" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="40" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="12" width="152" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-begin-transaction"><text x="48" y="32" fill="#2c5aa0">begin-transaction</text></a>
+        <line x1="192" y1="27" x2="236" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="236" y1="27" x2="236" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="69" x2="40" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="54" width="160" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-commit-transaction"><text x="48" y="74" fill="#2c5aa0">commit-transaction</text></a>
+        <line x1="200" y1="69" x2="236" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="236" y1="27" x2="236" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="111" x2="40" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="96" width="176" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-rollback-transaction"><text x="48" y="116" fill="#2c5aa0">rollback-transaction</text></a>
+        <line x1="216" y1="111" x2="236" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="236" y1="27" x2="236" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="153" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="153" x2="40" y2="153" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="138" width="168" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-savepoint-statement"><text x="48" y="158" fill="#2c5aa0">savepoint-statement</text></a>
+        <line x1="208" y1="153" x2="236" y2="153" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="236" y1="27" x2="236" y2="153" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="195" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="195" x2="40" y2="195" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="180" width="152" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-release-savepoint"><text x="48" y="200" fill="#2c5aa0">release-savepoint</text></a>
+        <line x1="192" y1="195" x2="236" y2="195" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="236" y1="27" x2="236" y2="195" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="236" y1="27" x2="250" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="250,24 256,27 250,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>transaction-statement ::= begin-transaction | commit-transaction | rollback-transaction | savepoint-statement | release-savepoint</code></div>
+  </div>
+
+  <div class="rule" id="rule-begin-transaction">
+    <h3>begin-transaction</h3>
+    <div class="diagram">
+      <svg width="312" height="96" viewBox="0 0 312 96">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <line x1="20" y1="27" x2="20" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="40" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="12" width="72" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="32" fill="#000000">&#39;BEGIN&#39;</text>
+        <line x1="112" y1="27" x2="272" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="272" y1="27" x2="272" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="69" x2="40" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="54" width="72" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="74" fill="#000000">&#39;START&#39;</text>
+        <line x1="112" y1="69" x2="132" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="132" y="54" width="120" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="140" y="74" fill="#000000">&#39;TRANSACTION&#39;</text>
+        <line x1="252" y1="69" x2="272" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="272" y1="27" x2="272" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="272" y1="27" x2="286" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="286,24 292,27 286,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>begin-transaction ::= ( 'BEGIN' | 'START' 'TRANSACTION' )</code></div>
+  </div>
+
+  <div class="rule" id="rule-commit-transaction">
+    <h3>commit-transaction</h3>
+    <div class="diagram">
+      <svg width="140" height="54" viewBox="0 0 140 54">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <rect x="20" y="12" width="80" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="28" y="32" fill="#000000">&#39;COMMIT&#39;</text>
+        <line x1="100" y1="27" x2="114" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="114,24 120,27 114,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>commit-transaction ::= 'COMMIT'</code></div>
+  </div>
+
+  <div class="rule" id="rule-rollback-transaction">
+    <h3>rollback-transaction</h3>
+    <div class="diagram">
+      <svg width="600" height="54" viewBox="0 0 600 54">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <rect x="20" y="12" width="96" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="28" y="32" fill="#000000">&#39;ROLLBACK&#39;</text>
+        <line x1="116" y1="27" x2="136" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="156" y="12" width="48" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="164" y="32" fill="#000000">&#39;TO&#39;</text>
+        <line x1="204" y1="27" x2="224" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="244" y="12" width="104" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="252" y="32" fill="#000000">&#39;SAVEPOINT&#39;</text>
+        <line x1="224" y1="27" x2="244" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="348" y1="27" x2="368" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="224" y1="27" x2="224" y2="2" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="224" y1="2" x2="368" y2="2" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="368" y1="2" x2="368" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="370" y="32" fill="#999">?</text>
+        <line x1="380" y1="27" x2="400" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="400" y="12" width="128" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-savepoint-name"><text x="408" y="32" fill="#2c5aa0">savepoint-name</text></a>
+        <line x1="136" y1="27" x2="156" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="528" y1="27" x2="548" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="136" y1="27" x2="136" y2="2" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="136" y1="2" x2="548" y2="2" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="548" y1="2" x2="548" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="550" y="32" fill="#999">?</text>
+        <line x1="560" y1="27" x2="574" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="574,24 580,27 574,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>rollback-transaction ::= 'ROLLBACK' ( 'TO' 'SAVEPOINT'? savepoint-name )?</code></div>
+  </div>
+
+  <div class="rule" id="rule-savepoint-statement">
+    <h3>savepoint-statement</h3>
+    <div class="diagram">
+      <svg width="312" height="54" viewBox="0 0 312 54">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <rect x="20" y="12" width="104" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="28" y="32" fill="#000000">&#39;SAVEPOINT&#39;</text>
+        <line x1="124" y1="27" x2="144" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="144" y="12" width="128" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-savepoint-name"><text x="152" y="32" fill="#2c5aa0">savepoint-name</text></a>
+        <line x1="272" y1="27" x2="286" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="286,24 292,27 286,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>savepoint-statement ::= 'SAVEPOINT' savepoint-name</code></div>
+  </div>
+
+  <div class="rule" id="rule-release-savepoint">
+    <h3>release-savepoint</h3>
+    <div class="diagram">
+      <svg width="420" height="54" viewBox="0 0 420 54">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <rect x="20" y="12" width="88" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="28" y="32" fill="#000000">&#39;RELEASE&#39;</text>
+        <line x1="108" y1="27" x2="128" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="128" y="12" width="104" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="136" y="32" fill="#000000">&#39;SAVEPOINT&#39;</text>
+        <line x1="232" y1="27" x2="252" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="252" y="12" width="128" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-savepoint-name"><text x="260" y="32" fill="#2c5aa0">savepoint-name</text></a>
+        <line x1="380" y1="27" x2="394" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="394,24 400,27 394,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>release-savepoint ::= 'RELEASE' 'SAVEPOINT' savepoint-name</code></div>
+  </div>
+
+  <div class="rule" id="rule-savepoint-name">
+    <h3>savepoint-name</h3>
+    <div class="diagram">
+      <svg width="156" height="54" viewBox="0 0 156 54">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <rect x="20" y="12" width="96" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-identifier"><text x="28" y="32" fill="#2c5aa0">identifier</text></a>
+        <line x1="116" y1="27" x2="130" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="130,24 136,27 130,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>savepoint-name ::= identifier</code></div>
+  </div>
+
+  <div class="rule" id="rule-identifier">
+    <h3>identifier</h3>
+    <div class="diagram">
+      <svg width="252" height="54" viewBox="0 0 252 54">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <rect x="20" y="12" width="192" height="30" rx="10" ry="10" fill="#e6e6fa" stroke="#3c3c3c" stroke-width="1.5" stroke-dasharray="4,3" />
+        <text x="28" y="32" fill="#000000">[a-zA-Z_][a-zA-Z0-9_]*</text>
+        <line x1="212" y1="27" x2="226" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="226,24 232,27 226,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>identifier ::= /[a-zA-Z_][a-zA-Z0-9_]*/</code></div>
+  </div>
+
+</body>
+</html>

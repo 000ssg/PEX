@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Grammar: arithmetics-math-functions</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 20px 40px;
+      color: #333;
+      background: #fff;
+    }
+    h1 { border-bottom: 2px solid #2c5aa0; padding-bottom: 10px; color: #2c5aa0; }
+    h2 { color: #444; margin-top: 30px; }
+    h3 { color: #2c5aa0; margin-top: 0; }
+    .toc { column-count: 2; column-gap: 30px; }
+    .toc a { color: #2c5aa0; text-decoration: none; }
+    .toc a:hover { text-decoration: underline; }
+    .rule {
+      border-top: 1px solid #ddd;
+      padding: 20px 0;
+    }
+    .diagram {
+      background: #f8f8f8;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      padding: 16px;
+      margin: 12px 0;
+      overflow-x: auto;
+    }
+    .diagram svg { display: block; }
+    .bnf {
+      background: #f5f5f5;
+      border-left: 3px solid #2c5aa0;
+      padding: 8px 12px;
+      margin: 12px 0;
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 13px;
+      white-space: pre-wrap;
+    }
+    .bnf code { color: #333; }
+    svg text { font-family: 'Consolas', 'Monaco', monospace; font-size: 13px; }
+    svg a text { fill: #2c5aa0; }
+    svg a:hover text { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <h1>Grammar: arithmetics-math-functions</h1>
+  <h2>Table of Contents</h2>
+  <ul class="toc">
+    <li><a href="#rule-math-call">math-call</a></li>
+    <li><a href="#rule-unary-math-call">unary-math-call</a></li>
+    <li><a href="#rule-unary-math-name">unary-math-name</a></li>
+    <li><a href="#rule-binary-math-call">binary-math-call</a></li>
+    <li><a href="#rule-binary-math-name">binary-math-name</a></li>
+    <li><a href="#rule-constant-call">constant-call</a></li>
+    <li><a href="#rule-constant-name">constant-name</a></li>
+    <li><a href="#rule-expression">expression</a></li>
+    <li><a href="#rule-additive-expr">additive-expr</a></li>
+    <li><a href="#rule-multiplicative-expr">multiplicative-expr</a></li>
+    <li><a href="#rule-unary-expr">unary-expr</a></li>
+    <li><a href="#rule-primary">primary</a></li>
+    <li><a href="#rule-number">number</a></li>
+    <li><a href="#rule-identifier">identifier</a></li>
+  </ul>
+
+  <div class="rule" id="rule-math-call">
+    <h3>math-call</h3>
+    <div class="diagram">
+      <svg width="244" height="138" viewBox="0 0 244 138">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <line x1="20" y1="27" x2="20" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="40" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="12" width="136" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-unary-math-call"><text x="48" y="32" fill="#2c5aa0">unary-math-call</text></a>
+        <line x1="176" y1="27" x2="204" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="204" y1="27" x2="204" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="69" x2="40" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="54" width="144" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-binary-math-call"><text x="48" y="74" fill="#2c5aa0">binary-math-call</text></a>
+        <line x1="184" y1="69" x2="204" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="204" y1="27" x2="204" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="111" x2="40" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="96" width="120" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-constant-call"><text x="48" y="116" fill="#2c5aa0">constant-call</text></a>
+        <line x1="160" y1="111" x2="204" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="204" y1="27" x2="204" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="204" y1="27" x2="218" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="218,24 224,27 218,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>math-call ::= unary-math-call | binary-math-call | constant-call</code></div>
+  </div>
+
+  <div class="rule" id="rule-unary-math-call">
+    <h3>unary-math-call</h3>
+    <div class="diagram">
+      <svg width="432" height="54" viewBox="0 0 432 54">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <rect x="20" y="12" width="136" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-unary-math-name"><text x="28" y="32" fill="#2c5aa0">unary-math-name</text></a>
+        <line x1="156" y1="27" x2="176" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="176" y="12" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="184" y="32" fill="#000000">&#39;(&#39;</text>
+        <line x1="216" y1="27" x2="236" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="236" y="12" width="96" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-expression"><text x="244" y="32" fill="#2c5aa0">expression</text></a>
+        <line x1="332" y1="27" x2="352" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="352" y="12" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="360" y="32" fill="#000000">&#39;)&#39;</text>
+        <line x1="392" y1="27" x2="406" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="406,24 412,27 406,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>unary-math-call ::= unary-math-name '(' expression ')'</code></div>
+  </div>
+
+  <div class="rule" id="rule-unary-math-name">
+    <h3>unary-math-name</h3>
+    <div class="diagram">
+      <svg width="204" height="810" viewBox="0 0 204 810">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <line x1="20" y1="27" x2="20" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="40" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="12" width="56" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="32" fill="#000000">&#39;abs&#39;</text>
+        <line x1="96" y1="27" x2="164" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="164" y1="27" x2="164" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="69" x2="40" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="54" width="64" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="74" fill="#000000">&#39;ceil&#39;</text>
+        <line x1="104" y1="69" x2="164" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="164" y1="27" x2="164" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="111" x2="40" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="96" width="72" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="116" fill="#000000">&#39;floor&#39;</text>
+        <line x1="112" y1="111" x2="164" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="164" y1="27" x2="164" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="153" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="153" x2="40" y2="153" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="138" width="72" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="158" fill="#000000">&#39;round&#39;</text>
+        <line x1="112" y1="153" x2="164" y2="153" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="164" y1="27" x2="164" y2="153" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="195" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="195" x2="40" y2="195" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="180" width="64" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="200" fill="#000000">&#39;sqrt&#39;</text>
+        <line x1="104" y1="195" x2="164" y2="195" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="164" y1="27" x2="164" y2="195" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="237" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="237" x2="40" y2="237" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="222" width="64" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="242" fill="#000000">&#39;cbrt&#39;</text>
+        <line x1="104" y1="237" x2="164" y2="237" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="164" y1="27" x2="164" y2="237" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="279" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="279" x2="40" y2="279" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="264" width="56" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="284" fill="#000000">&#39;exp&#39;</text>
+        <line x1="96" y1="279" x2="164" y2="279" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="164" y1="27" x2="164" y2="279" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="321" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="321" x2="40" y2="321" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="306" width="56" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="326" fill="#000000">&#39;log&#39;</text>
+        <line x1="96" y1="321" x2="164" y2="321" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="164" y1="27" x2="164" y2="321" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="363" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="363" x2="40" y2="363" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="348" width="72" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="368" fill="#000000">&#39;log10&#39;</text>
+        <line x1="112" y1="363" x2="164" y2="363" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="164" y1="27" x2="164" y2="363" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="405" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="405" x2="40" y2="405" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="390" width="64" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="410" fill="#000000">&#39;log2&#39;</text>
+        <line x1="104" y1="405" x2="164" y2="405" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="164" y1="27" x2="164" y2="405" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="447" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="447" x2="40" y2="447" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="432" width="56" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="452" fill="#000000">&#39;sin&#39;</text>
+        <line x1="96" y1="447" x2="164" y2="447" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="164" y1="27" x2="164" y2="447" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="489" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="489" x2="40" y2="489" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="474" width="56" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="494" fill="#000000">&#39;cos&#39;</text>
+        <line x1="96" y1="489" x2="164" y2="489" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="164" y1="27" x2="164" y2="489" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="531" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="531" x2="40" y2="531" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="516" width="56" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="536" fill="#000000">&#39;tan&#39;</text>
+        <line x1="96" y1="531" x2="164" y2="531" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="164" y1="27" x2="164" y2="531" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="573" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="573" x2="40" y2="573" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="558" width="64" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="578" fill="#000000">&#39;asin&#39;</text>
+        <line x1="104" y1="573" x2="164" y2="573" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="164" y1="27" x2="164" y2="573" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="615" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="615" x2="40" y2="615" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="600" width="64" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="620" fill="#000000">&#39;acos&#39;</text>
+        <line x1="104" y1="615" x2="164" y2="615" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="164" y1="27" x2="164" y2="615" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="657" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="657" x2="40" y2="657" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="642" width="64" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="662" fill="#000000">&#39;atan&#39;</text>
+        <line x1="104" y1="657" x2="164" y2="657" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="164" y1="27" x2="164" y2="657" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="699" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="699" x2="40" y2="699" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="684" width="104" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="704" fill="#000000">&#39;toRadians&#39;</text>
+        <line x1="144" y1="699" x2="164" y2="699" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="164" y1="27" x2="164" y2="699" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="741" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="741" x2="40" y2="741" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="726" width="104" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="746" fill="#000000">&#39;toDegrees&#39;</text>
+        <line x1="144" y1="741" x2="164" y2="741" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="164" y1="27" x2="164" y2="741" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="783" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="783" x2="40" y2="783" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="768" width="80" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="788" fill="#000000">&#39;signum&#39;</text>
+        <line x1="120" y1="783" x2="164" y2="783" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="164" y1="27" x2="164" y2="783" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="164" y1="27" x2="178" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="178,24 184,27 178,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>unary-math-name ::= 'abs' | 'ceil' | 'floor' | 'round' | 'sqrt' | 'cbrt' | 'exp' | 'log' | 'log10' | 'log2' | 'sin' | 'cos' | 'tan' | 'asin' | 'acos' | 'atan' | 'toRadians' | 'toDegrees' | 'signum'</code></div>
+  </div>
+
+  <div class="rule" id="rule-binary-math-call">
+    <h3>binary-math-call</h3>
+    <div class="diagram">
+      <svg width="616" height="54" viewBox="0 0 616 54">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <rect x="20" y="12" width="144" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-binary-math-name"><text x="28" y="32" fill="#2c5aa0">binary-math-name</text></a>
+        <line x1="164" y1="27" x2="184" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="184" y="12" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="192" y="32" fill="#000000">&#39;(&#39;</text>
+        <line x1="224" y1="27" x2="244" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="244" y="12" width="96" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-expression"><text x="252" y="32" fill="#2c5aa0">expression</text></a>
+        <line x1="340" y1="27" x2="360" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="360" y="12" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="368" y="32" fill="#000000">&#39;,&#39;</text>
+        <line x1="400" y1="27" x2="420" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="420" y="12" width="96" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-expression"><text x="428" y="32" fill="#2c5aa0">expression</text></a>
+        <line x1="516" y1="27" x2="536" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="536" y="12" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="544" y="32" fill="#000000">&#39;)&#39;</text>
+        <line x1="576" y1="27" x2="590" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="590,24 596,27 590,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>binary-math-call ::= binary-math-name '(' expression ',' expression ')'</code></div>
+  </div>
+
+  <div class="rule" id="rule-binary-math-name">
+    <h3>binary-math-name</h3>
+    <div class="diagram">
+      <svg width="172" height="180" viewBox="0 0 172 180">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <line x1="20" y1="27" x2="20" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="40" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="12" width="56" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="32" fill="#000000">&#39;pow&#39;</text>
+        <line x1="96" y1="27" x2="132" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="132" y1="27" x2="132" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="69" x2="40" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="54" width="56" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="74" fill="#000000">&#39;max&#39;</text>
+        <line x1="96" y1="69" x2="132" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="132" y1="27" x2="132" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="111" x2="40" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="96" width="56" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="116" fill="#000000">&#39;min&#39;</text>
+        <line x1="96" y1="111" x2="132" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="132" y1="27" x2="132" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="153" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="153" x2="40" y2="153" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="138" width="72" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="158" fill="#000000">&#39;atan2&#39;</text>
+        <line x1="112" y1="153" x2="132" y2="153" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="132" y1="27" x2="132" y2="153" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="132" y1="27" x2="146" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="146,24 152,27 146,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>binary-math-name ::= 'pow' | 'max' | 'min' | 'atan2'</code></div>
+  </div>
+
+  <div class="rule" id="rule-constant-call">
+    <h3>constant-call</h3>
+    <div class="diagram">
+      <svg width="300" height="54" viewBox="0 0 300 54">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <rect x="20" y="12" width="120" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-constant-name"><text x="28" y="32" fill="#2c5aa0">constant-name</text></a>
+        <line x1="140" y1="27" x2="160" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="160" y="12" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="168" y="32" fill="#000000">&#39;(&#39;</text>
+        <line x1="200" y1="27" x2="220" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="220" y="12" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="228" y="32" fill="#000000">&#39;)&#39;</text>
+        <line x1="260" y1="27" x2="274" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="274,24 280,27 274,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>constant-call ::= constant-name '(' ')'</code></div>
+  </div>
+
+  <div class="rule" id="rule-constant-name">
+    <h3>constant-name</h3>
+    <div class="diagram">
+      <svg width="180" height="138" viewBox="0 0 180 138">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <line x1="20" y1="27" x2="20" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="40" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="12" width="80" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="32" fill="#000000">&#39;random&#39;</text>
+        <line x1="120" y1="27" x2="140" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="140" y1="27" x2="140" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="69" x2="40" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="54" width="48" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="74" fill="#000000">&#39;PI&#39;</text>
+        <line x1="88" y1="69" x2="140" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="140" y1="27" x2="140" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="111" x2="40" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="96" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="116" fill="#000000">&#39;E&#39;</text>
+        <line x1="80" y1="111" x2="140" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="140" y1="27" x2="140" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="140" y1="27" x2="154" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="154,24 160,27 154,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>constant-name ::= 'random' | 'PI' | 'E'</code></div>
+  </div>
+
+  <div class="rule" id="rule-expression">
+    <h3>expression</h3>
+    <div class="diagram">
+      <svg width="180" height="54" viewBox="0 0 180 54">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <rect x="20" y="12" width="120" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-additive-expr"><text x="28" y="32" fill="#2c5aa0">additive-expr</text></a>
+        <line x1="140" y1="27" x2="154" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="154,24 160,27 154,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>expression ::= additive-expr</code></div>
+  </div>
+
+  <div class="rule" id="rule-additive-expr">
+    <h3>additive-expr</h3>
+    <div class="diagram">
+      <svg width="568" height="112" viewBox="0 0 568 112">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <rect x="20" y="12" width="168" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-multiplicative-expr"><text x="28" y="32" fill="#2c5aa0">multiplicative-expr</text></a>
+        <line x1="188" y1="27" x2="208" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="228" y1="27" x2="228" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="228" y1="27" x2="248" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="248" y="12" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="256" y="32" fill="#000000">&#39;+&#39;</text>
+        <line x1="288" y1="27" x2="308" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="308" y1="27" x2="308" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="228" y1="27" x2="228" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="228" y1="69" x2="248" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="248" y="54" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="256" y="74" fill="#000000">&#39;-&#39;</text>
+        <line x1="288" y1="69" x2="308" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="308" y1="27" x2="308" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="308" y1="27" x2="328" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="328" y="12" width="168" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-multiplicative-expr"><text x="336" y="32" fill="#2c5aa0">multiplicative-expr</text></a>
+        <line x1="208" y1="27" x2="228" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="496" y1="27" x2="516" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="496" y1="27" x2="496" y2="96" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="228" y1="96" x2="496" y2="96" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="228" y1="27" x2="228" y2="96" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="208" y1="27" x2="208" y2="2" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="208" y1="2" x2="516" y2="2" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="516" y1="2" x2="516" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="518" y="32" fill="#999">*</text>
+        <line x1="528" y1="27" x2="542" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="542,24 548,27 542,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>additive-expr ::= multiplicative-expr ( ( '+' | '-' ) multiplicative-expr )*</code></div>
+  </div>
+
+  <div class="rule" id="rule-multiplicative-expr">
+    <h3>multiplicative-expr</h3>
+    <div class="diagram">
+      <svg width="424" height="154" viewBox="0 0 424 154">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <rect x="20" y="12" width="96" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-unary-expr"><text x="28" y="32" fill="#2c5aa0">unary-expr</text></a>
+        <line x1="116" y1="27" x2="136" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="156" y1="27" x2="156" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="156" y1="27" x2="176" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="176" y="12" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="184" y="32" fill="#000000">&#39;*&#39;</text>
+        <line x1="216" y1="27" x2="236" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="236" y1="27" x2="236" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="156" y1="27" x2="156" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="156" y1="69" x2="176" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="176" y="54" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="184" y="74" fill="#000000">&#39;/&#39;</text>
+        <line x1="216" y1="69" x2="236" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="236" y1="27" x2="236" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="156" y1="27" x2="156" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="156" y1="111" x2="176" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="176" y="96" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="184" y="116" fill="#000000">&#39;%&#39;</text>
+        <line x1="216" y1="111" x2="236" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="236" y1="27" x2="236" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="236" y1="27" x2="256" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="256" y="12" width="96" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-unary-expr"><text x="264" y="32" fill="#2c5aa0">unary-expr</text></a>
+        <line x1="136" y1="27" x2="156" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="352" y1="27" x2="372" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="352" y1="27" x2="352" y2="138" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="156" y1="138" x2="352" y2="138" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="156" y1="27" x2="156" y2="138" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="136" y1="27" x2="136" y2="2" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="136" y1="2" x2="372" y2="2" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="372" y1="2" x2="372" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="374" y="32" fill="#999">*</text>
+        <line x1="384" y1="27" x2="398" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="398,24 404,27 398,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>multiplicative-expr ::= unary-expr ( ( '*' | '/' | '%' ) unary-expr )*</code></div>
+  </div>
+
+  <div class="rule" id="rule-unary-expr">
+    <h3>unary-expr</h3>
+    <div class="diagram">
+      <svg width="296" height="138" viewBox="0 0 296 138">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <line x1="20" y1="27" x2="20" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="40" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="40" y1="27" x2="40" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="40" y1="27" x2="60" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="60" y="12" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="68" y="32" fill="#000000">&#39;-&#39;</text>
+        <line x1="100" y1="27" x2="120" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="120" y1="27" x2="120" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="40" y1="27" x2="40" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="40" y1="69" x2="60" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="60" y="54" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="68" y="74" fill="#000000">&#39;+&#39;</text>
+        <line x1="100" y1="69" x2="120" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="120" y1="27" x2="120" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="120" y1="27" x2="140" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="140" y="12" width="96" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-unary-expr"><text x="148" y="32" fill="#2c5aa0">unary-expr</text></a>
+        <line x1="236" y1="27" x2="256" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="256" y1="27" x2="256" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="111" x2="40" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="96" width="72" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-primary"><text x="48" y="116" fill="#2c5aa0">primary</text></a>
+        <line x1="112" y1="111" x2="256" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="256" y1="27" x2="256" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="256" y1="27" x2="270" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="270,24 276,27 270,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>unary-expr ::= ( '-' | '+' ) unary-expr | primary</code></div>
+  </div>
+
+  <div class="rule" id="rule-primary">
+    <h3>primary</h3>
+    <div class="diagram">
+      <svg width="316" height="180" viewBox="0 0 316 180">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <line x1="20" y1="27" x2="20" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="40" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="12" width="64" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-number"><text x="48" y="32" fill="#2c5aa0">number</text></a>
+        <line x1="104" y1="27" x2="276" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="276" y1="27" x2="276" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="69" x2="40" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="54" width="96" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-identifier"><text x="48" y="74" fill="#2c5aa0">identifier</text></a>
+        <line x1="136" y1="69" x2="276" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="276" y1="27" x2="276" y2="69" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="111" x2="40" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="96" width="88" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-math-call"><text x="48" y="116" fill="#2c5aa0">math-call</text></a>
+        <line x1="128" y1="111" x2="276" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="276" y1="27" x2="276" y2="111" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="27" x2="20" y2="153" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="20" y1="153" x2="40" y2="153" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="40" y="138" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="48" y="158" fill="#000000">&#39;(&#39;</text>
+        <line x1="80" y1="153" x2="100" y2="153" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="100" y="138" width="96" height="30" fill="#b3dbff" stroke="#3c3c3c" stroke-width="1.5" />
+        <a href="#rule-expression"><text x="108" y="158" fill="#2c5aa0">expression</text></a>
+        <line x1="196" y1="153" x2="216" y2="153" stroke="#3c3c3c" stroke-width="1.5" />
+        <rect x="216" y="138" width="40" height="30" rx="10" ry="10" fill="#ffdbb3" stroke="#3c3c3c" stroke-width="1.5" />
+        <text x="224" y="158" fill="#000000">&#39;)&#39;</text>
+        <line x1="256" y1="153" x2="276" y2="153" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="276" y1="27" x2="276" y2="153" stroke="#3c3c3c" stroke-width="1.5" />
+        <line x1="276" y1="27" x2="290" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="290,24 296,27 290,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>primary ::= number | identifier | math-call | '(' expression ')'</code></div>
+  </div>
+
+  <div class="rule" id="rule-number">
+    <h3>number</h3>
+    <div class="diagram">
+      <svg width="212" height="54" viewBox="0 0 212 54">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <rect x="20" y="12" width="152" height="30" rx="10" ry="10" fill="#e6e6fa" stroke="#3c3c3c" stroke-width="1.5" stroke-dasharray="4,3" />
+        <text x="28" y="32" fill="#000000">[0-9]+(\.[0-9]+)?</text>
+        <line x1="172" y1="27" x2="186" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="186,24 192,27 186,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>number ::= /[0-9]+(\.[0-9]+)?/</code></div>
+  </div>
+
+  <div class="rule" id="rule-identifier">
+    <h3>identifier</h3>
+    <div class="diagram">
+      <svg width="252" height="54" viewBox="0 0 252 54">
+        <line x1="0" y1="27" x2="14" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="14,24 20,27 14,30" fill="#3c3c3c" />
+        <rect x="20" y="12" width="192" height="30" rx="10" ry="10" fill="#e6e6fa" stroke="#3c3c3c" stroke-width="1.5" stroke-dasharray="4,3" />
+        <text x="28" y="32" fill="#000000">[a-zA-Z_][a-zA-Z0-9_]*</text>
+        <line x1="212" y1="27" x2="226" y2="27" stroke="#3c3c3c" stroke-width="1.5" />
+        <polygon points="226,24 232,27 226,30" fill="#3c3c3c" />
+      </svg>
+    </div>
+    <div class="bnf"><code>identifier ::= /[a-zA-Z_][a-zA-Z0-9_]*/</code></div>
+  </div>
+
+</body>
+</html>

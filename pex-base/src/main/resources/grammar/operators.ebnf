@@ -1,0 +1,40 @@
+grammar pex-operators;
+
+// Operator definitions and precedence documentation
+// Precedence: higher number = binds tighter
+
+// Precedence 1: Assignment
+assign-op ::= '=' ;
+
+// Precedence 3: Logical OR
+logical-or-op ::= '||' ;
+
+// Precedence 4: Logical AND
+logical-and-op ::= '&&' ;
+
+// Precedence 5: Bitwise OR
+bitwise-or-op ::= '|' ;
+
+// Precedence 6: Bitwise XOR
+bitwise-xor-op ::= '^' ;
+
+// Precedence 7: Bitwise AND
+bitwise-and-op ::= '&' ;
+
+// Precedence 8: Equality
+equality-op ::= '==' | '!=' ;
+
+// Precedence 9: Relational
+relational-op ::= '<' | '>' | '<=' | '>=' ;
+
+// Precedence 10: Shift
+shift-op ::= '<<' | '>>' | '>>>' ;
+
+// Precedence 11: Additive
+additive-op ::= '+' | '-' ;
+
+// Precedence 12: Multiplicative
+multiplicative-op ::= '*' | '/' | '%' ;
+
+// Precedence 14: Unary (prefix)
+unary-op ::= '!' | '~' | '-' | '+' ;

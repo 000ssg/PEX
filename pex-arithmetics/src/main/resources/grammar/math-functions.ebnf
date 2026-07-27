@@ -1,0 +1,35 @@
+grammar arithmetics-math-functions;
+
+// Math function signatures registered by MathFunctions
+// All functions operate on numeric arguments and return numeric results
+
+math-call ::= unary-math-call | binary-math-call | constant-call ;
+
+// Single-argument functions
+unary-math-call ::= unary-math-name '(' expression ')' ;
+
+unary-math-name ::= 'abs' | 'ceil' | 'floor' | 'round'
+                   | 'sqrt' | 'cbrt'
+                   | 'exp' | 'log' | 'log10' | 'log2'
+                   | 'sin' | 'cos' | 'tan'
+                   | 'asin' | 'acos' | 'atan'
+                   | 'toRadians' | 'toDegrees'
+                   | 'signum' ;
+
+// Two-argument functions
+binary-math-call ::= binary-math-name '(' expression ',' expression ')' ;
+
+binary-math-name ::= 'pow' | 'max' | 'min' | 'atan2' ;
+
+// Zero-argument / constant functions
+constant-call ::= constant-name '(' ')' ;
+
+constant-name ::= 'random' | 'PI' | 'E' ;
+
+expression ::= additive-expr ;
+additive-expr ::= multiplicative-expr (('+' | '-') multiplicative-expr)* ;
+multiplicative-expr ::= unary-expr (('*' | '/' | '%') unary-expr)* ;
+unary-expr ::= ('-' | '+') unary-expr | primary ;
+primary ::= number | identifier | math-call | '(' expression ')' ;
+number ::= /[0-9]+(\.[0-9]+)?/ ;
+identifier ::= /[a-zA-Z_][a-zA-Z0-9_]*/ ;

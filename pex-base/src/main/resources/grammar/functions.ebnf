@@ -1,0 +1,13 @@
+grammar pex-functions;
+
+// Function definitions and calls
+
+function-def ::= 'function' identifier '(' param-list? ')' block ;
+
+param-list ::= parameter (',' parameter)* ;
+parameter ::= identifier (':' type-name)? ;
+
+function-call ::= identifier '(' arg-list? ')' ;
+arg-list ::= expression (',' expression)* ;
+
+type-name ::= 'int' | 'float' | 'string' | 'bool' | 'void' ;

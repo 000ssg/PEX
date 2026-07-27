@@ -1,0 +1,22 @@
+grammar sql-transactions;
+
+// Transaction control statements
+
+transaction-statement ::= begin-transaction
+                        | commit-transaction
+                        | rollback-transaction
+                        | savepoint-statement
+                        | release-savepoint ;
+
+begin-transaction ::= ('BEGIN' | 'START' 'TRANSACTION') ;
+
+commit-transaction ::= 'COMMIT' ;
+
+rollback-transaction ::= 'ROLLBACK' ('TO' 'SAVEPOINT'? savepoint-name)? ;
+
+savepoint-statement ::= 'SAVEPOINT' savepoint-name ;
+
+release-savepoint ::= 'RELEASE' 'SAVEPOINT' savepoint-name ;
+
+savepoint-name ::= identifier ;
+identifier ::= /[a-zA-Z_][a-zA-Z0-9_]*/ ;

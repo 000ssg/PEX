@@ -1,0 +1,53 @@
+grammar arithmetics;
+
+// Full arithmetic expression grammar with operator precedence
+// Matches ArithmeticsGrammarProvider.createGrammar()
+
+expression ::= or-expr ;
+
+// Logical operators (lowest precedence)
+or-expr ::= and-expr ('||' and-expr)* ;
+and-expr ::= bitwise-or-expr ('&&' bitwise-or-expr)* ;
+
+// Bitwise operators
+bitwise-or-expr ::= bitwise-xor-expr ('|' bitwise-xor-expr)* ;
+bitwise-xor-expr ::= bitwise-and-expr ('^' bitwise-and-expr)* ;
+bitwise-and-expr ::= equality-expr ('&' equality-expr)* ;
+
+// Comparison operators
+equality-expr ::= relational-expr (('==' | '!=') relational-expr)* ;
+relational-expr ::= shift-expr (('<=' | '>=' | '<' | '>') shift-expr)* ;
+
+// Shift operators
+shift-expr ::= additive-expr (('>>>' | '<<' | '>>') additive-expr)* ;
+
+// Arithmetic operators
+additive-expr ::= multiplicative-expr (('+' | '-') multiplicative-expr)* ;
+multiplicative-expr ::= unary-expr (('*' | '/' | '%') unary-expr)* ;
+
+// Unary prefix operators (highest precedence for operators)
+unary-expr ::= ('!' | '-' | '~' | '+') unary-expr
+             | primary ;
+
+// Primary expressions
+primary ::= float-literal
+           | hex-literal
+           | bin-literal
+           | oct-literal
+           | int-literal
+           | bool-literal
+           | function-call
+           | identifier
+           | '(' expression ')' ;
+
+// Literals
+int-literal ::= /[0-9]+/ ;
+float-literal ::= /[0-9]+\.[0-9]*([eE][+-]?[0-9]+)?/
+                 | /\.[0-9]+([eE][+-]?[0-9]+)?/
+                 | /[0-9]+[eE][+-]?[0-9]+/ ;
+bool-literal ::= 'true' | 'false' ;
+identifier ::= /[a-zA-Z_][a-zA-Z0-9_]*/ ;
+
+// Function calls
+function-call ::= identifier '(' arg-list? ')' ;
+arg-list ::= expression (',' expression)* ;

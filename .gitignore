@@ -8,6 +8,9 @@ build/
 # Compiled
 *.class
 *.jar
+
+# Gradle wrapper (must be committed)
+!gradle/wrapper/gradle-wrapper.jar
 *.war
 *.ear
 

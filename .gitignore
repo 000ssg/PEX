@@ -24,3 +24,15 @@ nb-configuration.xml
 *~
 .DS_Store
 *.log
+
+# Agent worktrees
+.claude/
+
+# Cost tracking artifacts
+costs/
+*-guessed-vs-actual-estimates*
+buildSrc/.gradle/
+buildSrc/build/
+
+# Maven surefire reports
+.surefire-*

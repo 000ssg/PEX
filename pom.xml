@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ssg</groupId>
     <artifactId>pex</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>0.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>PEX — Parse and Execute (root)</name>
 
@@ -25,6 +25,7 @@
         <junit.version>5.11.4</junit.version>
         <mockito.version>5.14.2</mockito.version>
         <assertj.version>3.27.3</assertj.version>
+        <jacoco.version>0.8.14</jacoco.version>
     </properties>
 
     <dependencyManagement>
@@ -72,6 +73,11 @@
             <dependency>
                 <groupId>ssg</groupId>
                 <artifactId>pex-nosql-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ssg</groupId>
+                <artifactId>pex-nosql-dialects</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -134,10 +140,9 @@
                     <version>3.5.2</version>
                     <configuration>
                         <argLine>--enable-preview</argLine>
-                        <parallel>classes</parallel>
-                        <threadCount>4</threadCount>
+                        <parallel>none</parallel>
                         <reuseForks>true</reuseForks>
-                        <forkCount>4</forkCount>
+                        <forkCount>1</forkCount>
                         <runOrder>balanced</runOrder>
                     </configuration>
                 </plugin>
@@ -146,7 +151,64 @@
                     <artifactId>maven-jar-plugin</artifactId>
                     <version>3.4.2</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>${jacoco.version}</version>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>
+
+    <profiles>
+        <profile>
+            <id>jacoco-coverage</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>prepare-agent</id>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>report-aggregate</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>report-aggregate</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>core-only</id>
+            <modules>
+                <module>pex-base</module>
+                <module>pex-arithmetics</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>sql-only</id>
+            <modules>
+                <module>pex-base</module>
+                <module>pex-arithmetics</module>
+                <module>pex-sql</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>nosql-only</id>
+            <modules>
+                <module>pex-base</module>
+                <module>pex-arithmetics</module>
+                <module>pex-nosql</module>
+            </modules>
+        </profile>
+    </profiles>
 </project>

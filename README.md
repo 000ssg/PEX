@@ -1,13 +1,13 @@
-![Java 24](https://img.shields.io/badge/Java-24-blue?logo=openjdk)
+![Java 25](https://img.shields.io/badge/Java-25-blue?logo=openjdk)
 ![Maven 3.9+](https://img.shields.io/badge/Maven-3.9%2B-C71A36?logo=apachemaven)
-![Gradle 8.14+](https://img.shields.io/badge/Gradle-8.14%2B-02303A?logo=gradle)
+![Gradle 9.6+](https://img.shields.io/badge/Gradle-9.6%2B-02303A?logo=gradle)
 ![Tests 2760](https://img.shields.io/badge/tests-2760-brightgreen)
-![Version 1.0.0](https://img.shields.io/badge/version-1.0.0-orange)
+![Version 0.1.0](https://img.shields.io/badge/version-0.1.0-orange)
 ![License MIT](https://img.shields.io/badge/license-MIT-green)
 
 # PEX -- Parse and Execute
 
-PEX is a modular Java 24 toolkit for defining grammars in BNF notation, parsing
+PEX is a modular Java 25 toolkit for defining grammars in BNF notation, parsing
 input into abstract syntax trees, executing ASTs with scoped variables, and
 converting them to other programming languages. It ships with a full arithmetic
 expression evaluator, an in-memory SQL database simulator, and a JIT compilation
@@ -299,24 +299,24 @@ pex/                        (root aggregator)
 <dependency>
     <groupId>ssg</groupId>
     <artifactId>pex-base</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>0.1.0-SNAPSHOT</version>
 </dependency>
 
 <!-- Add domain modules as needed -->
 <dependency>
     <groupId>ssg</groupId>
     <artifactId>pex-arithmetics</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>0.1.0-SNAPSHOT</version>
 </dependency>
 <dependency>
     <groupId>ssg</groupId>
     <artifactId>pex-sql</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>0.1.0-SNAPSHOT</version>
 </dependency>
 <dependency>
     <groupId>ssg</groupId>
     <artifactId>pex-converter</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>0.1.0-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -324,14 +324,14 @@ pex/                        (root aggregator)
 
 ```kotlin
 dependencies {
-    implementation("ssg:pex-base:1.0.0-SNAPSHOT")
-    implementation("ssg:pex-arithmetics:1.0.0-SNAPSHOT")
-    implementation("ssg:pex-sql:1.0.0-SNAPSHOT")
-    implementation("ssg:pex-converter:1.0.0-SNAPSHOT")
+    implementation("ssg:pex-base:0.1.0-SNAPSHOT")
+    implementation("ssg:pex-arithmetics:0.1.0-SNAPSHOT")
+    implementation("ssg:pex-sql:0.1.0-SNAPSHOT")
+    implementation("ssg:pex-converter:0.1.0-SNAPSHOT")
 }
 ```
 
-> **Note:** Java 24 with `--enable-preview` is required. Both the Maven
+> **Note:** Java 25 with `--enable-preview` is required. Both the Maven
 > `surefire` plugin and Gradle `Test` tasks are already configured for this.
 
 ---
@@ -806,8 +806,8 @@ batch.errors();     // List<PexError>
 
 ### Prerequisites
 
-- **JDK 24** (preview features enabled)
-- **Maven 3.9+** or **Gradle 8.14+**
+- **JDK 25** (preview features enabled)
+- **Maven 3.9+** or **Gradle 9.6+**
 
 ### Maven
 
@@ -836,7 +836,7 @@ mvn test -pl pex-base
 ```
 
 Both build systems pass `--enable-preview` to `javac` and the JVM, and run
-tests in parallel (4 forks).
+tests sequentially (parallel execution disabled for reliability).
 
 ---
 

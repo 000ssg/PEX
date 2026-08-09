@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "ssg"
-version = "1.0.0-SNAPSHOT"
+version = "0.1.0-SNAPSHOT"
 
 subprojects {
     apply(plugin = "java")
@@ -25,7 +25,8 @@ subprojects {
     tasks.withType<Test> {
         useJUnitPlatform()
         jvmArgs("--enable-preview")
-        maxParallelForks = 4
+        // Disable parallel test execution
+        maxParallelForks = 1
     }
 
     repositories {

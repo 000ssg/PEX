@@ -36,7 +36,7 @@ public final class ListFindResult implements FindResult {
 
     @Override
     public List<Document> toList() {
-        List<Document> result = new ArrayList<>(documents);
+        List<Document> result = new ArrayList<>(documents.stream().map(Document::copy).toList());
 
         // Apply sorts
         if (!sorts.isEmpty()) {

@@ -110,7 +110,7 @@ public final class AggregationEngine {
                 String key = e.getKey();
                 if (Document.ID_FIELD.equals(key)) continue;
                 if (!isZero(e.getValue())) {
-                    Object val = resolveExpression(e.getValue(), doc);
+                    Object val = e.getValue() instanceof Number ? doc.get(key) : resolveExpression(e.getValue(), doc);
                     if (val != null || doc.containsKey(key)) {
                         result.put(key, val != null ? val : doc.get(key));
                     }

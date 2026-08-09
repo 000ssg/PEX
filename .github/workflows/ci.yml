@@ -12,9 +12,9 @@ name: CI
 
 on:
   push:
-    branches: [master, productize]
+    branches: [master, productize, 1-coverage]
   pull_request:
-    branches: [master, productize]
+    branches: [master, productize, 1-coverage]
 
 jobs:
   build:
@@ -59,7 +59,7 @@ jobs:
 
   coverage-gate:
     name: "Coverage Gate"
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     needs: build
     if: ${{ !contains(github.event.pull_request.labels.*.name, 'skip-coverage') }}
 

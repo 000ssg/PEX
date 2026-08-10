@@ -7,14 +7,15 @@
 #
 # Conditional execution:
 #   Set `skip-coverage` label on PR to skip coverage gate
+#   Set `run-windows` label on PR to enable slow Windows build (disabled by default)
 
 name: CI
 
 on:
   push:
-    branches: [master, productize, 1-coverage]
+    branches: [master, productize]
   pull_request:
-    branches: [master, productize, 1-coverage]
+    branches: [master, productize]
 
 jobs:
   build:
@@ -28,10 +29,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up JDK 25
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: "25"
           distribution: "temurin"
@@ -51,9 +52,50 @@ jobs:
           CI: true
 
       - name: Upload test results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: test-results-${{ matrix.os }}
+          path: "**/build/reports/tests/test/index.html"
+          retention-days: 30
+
+
+  # ──────────────────────────────────────────────
+  # 1b. Windows Build (opt-in via label, disabled by default — 2× slower)
+  #     Activate on PR by adding the 'run-windows' label.
+  # ──────────────────────────────────────────────
+  build-windows:
+    name: "Build & Test (windows-latest, Java 25)"
+    runs-on: windows-latest
+    if: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'run-windows') }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up JDK 25
+        uses: actions/setup-java@v5
+        with:
+          java-version: "25"
+          distribution: "temurin"
+          cache: gradle
+
+      - name: Cache Gradle user home
+        uses: actions/cache@v4
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-caches-${{ hashFiles('**/*.gradle.kts', '**/gradle.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-caches-
+
+      - name: Compile and run unit tests
+        run: .\gradlew.bat clean compileJava test --parallel --rerun-tasks --no-daemon
+        env:
+          CI: true
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v5
+        with:
+          name: test-results-windows
           path: "**/build/reports/tests/test/index.html"
           retention-days: 30
 
@@ -65,10 +107,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up JDK 25
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: "25"
           distribution: "temurin"
@@ -80,7 +122,7 @@ jobs:
           CI: true
 
       - name: Upload JaCoCo report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: jacoco-report
           path: target/site/jacoco-aggregate/

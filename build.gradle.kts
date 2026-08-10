@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "ssg"
-version = "0.1.0"
+version = "0.2.0-SNAPSHOT"
 
 // Centralize version constants from gradle.properties (using non-deprecated API for Gradle 9.x)
 val junitVersion = property("junitVersion") as String

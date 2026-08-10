@@ -2,5 +2,5 @@ description = "PEX SQL OLAP — Window functions, CTEs, CUBE/ROLLUP, MERGE, PIVO
 
 dependencies {
     implementation(project(":pex-sql:pex-sql-core"))
-    implementation(project(":pex-base"))
+    api(project(":pex-base"))
 }

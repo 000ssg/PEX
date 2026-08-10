@@ -674,7 +674,7 @@ Context: these PEX changes were made to fix 6 failing integration tests in the M
 ### Implementation Details
 **New files:**
 - `settings.gradle.kts` — root project name `pex`, includes all 5 subprojects
-- `build.gradle.kts` (root) — Java plugin, group `ssg`, version `1.0.0-SNAPSHOT`, shared subproject config with centralized dependency versions (SLF4J 2.0.16, JUnit 5.11.4, Mockito 5.14.2, AssertJ 3.27.3)
+- `build.gradle.kts` (root) — Java plugin, group `ssg`, version `0.1.0-SNAPSHOT`, shared subproject config with centralized dependency versions (SLF4J 2.0.16, JUnit 5.11.4, Mockito 5.14.2, AssertJ 3.27.3)
 - `pex-base/build.gradle.kts` — empty (inherits all from root)
 - `pex-arithmetics/build.gradle.kts` — `implementation(project(":pex-base"))`
 - `pex-converter/build.gradle.kts` — `implementation(project(":pex-base"))`
@@ -886,7 +886,7 @@ Context: these PEX changes were made to fix 6 failing integration tests in the M
 
 ### Reformulated Requirements
 1. Maven parent POM with `pom` packaging aggregating 5 child modules
-2. Group ID `ssg`, artifact ID `pex`, version `1.0.0-SNAPSHOT`
+2. Group ID `ssg`, artifact ID `pex`, version `0.1.0-SNAPSHOT`
 3. Java 24 compiler release with `--enable-preview` flag for both compile and test
 4. Dependency management for: SLF4J 2.0.16 (logging), JUnit 5.11.4 (testing), Mockito 5.14.2 (mocking), AssertJ 3.27.3 (fluent assertions)
 5. Maven Surefire plugin 3.5.2 with parallel class execution, 4 forks, balanced run order
@@ -1006,8 +1006,8 @@ Context: these PEX changes were made to fix 6 failing integration tests in the M
 
 | Version | Date | Commits | Tests | Lines | Modules | Milestone |
 |---------|------|---------|-------|-------|---------|-----------|
-| 1.0.0-SNAPSHOT | June 16, 2026 | 3 | 1,072 | ~23,000 | 5 | Full implementation + Gradle build |
-| 1.0.0-SNAPSHOT | June 18, 2026 | 4 | 2,014 | ~42,000 | 10 | PostgreSQL, EBNF grammars, complex tests, bug fixes |
+| 0.1.0-SNAPSHOT | June 16, 2026 | 3 | 1,072 | ~23,000 | 5 | Full implementation + Gradle build |
+| 0.1.0-SNAPSHOT | June 18, 2026 | 4 | 2,014 | ~42,000 | 10 | PostgreSQL, EBNF grammars, complex tests, bug fixes |
 
 ---
 

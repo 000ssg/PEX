@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "ssg"
-version = "0.2.0-SNAPSHOT"
+version = "0.1.0"
 
 // Centralize version constants from gradle.properties (using non-deprecated API for Gradle 9.x)
 val junitVersion = property("junitVersion") as String
@@ -107,10 +107,10 @@ subprojects.forEach { subproject ->
         repositories {
             maven {
                 name = "GitHubPackages"
-                url = uri("https://m.pkg.github.com/000ssg/PEX")
+                url = uri("https://maven.pkg.github.com/000ssg/PEX")
                 credentials {
-                    username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
-                    password = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
+                    username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR") ?: "000ssg"
+                    password = project.findProperty("gpr.key") as String? ?: System.getenv("PACKAGE_PAT") ?: System.getenv("GITHUB_TOKEN")
                 }
             }
         }

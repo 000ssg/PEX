@@ -5,7 +5,7 @@
     <parent>
         <groupId>ssg</groupId>
         <artifactId>pex-sql</artifactId>
-        <version>0.2.0-SNAPSHOT</version>
+        <version>0.1.0</version>
     </parent>
     <artifactId>pex-sql-dialects</artifactId>
     <name>PEX SQL Dialects — Oracle, MSSQL, MySQL, special engines</name>

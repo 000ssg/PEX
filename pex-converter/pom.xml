@@ -5,7 +5,7 @@
     <parent>
         <groupId>ssg</groupId>
         <artifactId>pex</artifactId>
-        <version>0.1.0</version>
+        <version>0.2.0-SNAPSHOT</version>
     </parent>
     <artifactId>pex-converter</artifactId>
     <name>PEX Converter — AST to target language conversion, JIT compilation</name>

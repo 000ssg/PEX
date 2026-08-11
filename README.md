@@ -2,7 +2,7 @@
 ![Maven 3.9+](https://img.shields.io/badge/Maven-3.9%2B-C71A36?logo=apachemaven)
 ![Gradle 9.6+](https://img.shields.io/badge/Gradle-9.6%2B-02303A?logo=gradle)
 ![Tests 2760](https://img.shields.io/badge/tests-2760-brightgreen)
-![Version 0.1.0](https://img.shields.io/badge/version-0.1.0-orange)
+![Version 0.2.0-SNAPSHOT](https://img.shields.io/badge/version-0.2.0-SNAPSHOT-orange)
 ![License MIT](https://img.shields.io/badge/license-MIT-green)
 
 # PEX -- Parse and Execute
@@ -42,6 +42,7 @@ pipeline -- all wired together through a lightweight plugin SPI.
 - [Testing](#testing)
 - [Project Structure](#project-structure)
 - [Grammar Documentation](#grammar-documentation)
+- [Release Procedure](#release-procedure)
 - [Roadmap](#roadmap)
 - [License](#license)
 - [Authors](#authors)
@@ -1027,6 +1028,13 @@ Open `.g4` files in the Grammar Visualizer to see all ANTLR constructs rendered 
 
 <a id="roadmap"></a>
 ## Roadmap
+---
+
+<a id="release-procedure"></a>
+## Release Procedure
+
+For the complete step-by-step release guide, see [doc/RELEASE_PROCEDURE.md](doc/RELEASE_PROCEDURE.md).
+
 
 - [ ] Automatic AST building from ParseMatch (bridge BNF parse output to AstNode)
 - [ ] REPL / interactive shell

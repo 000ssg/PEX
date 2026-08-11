@@ -112,3 +112,44 @@ MDB-SQL for stable Maven coordinates.
 ---
 
 **Last Updated**: 2026-08-11
+
+---
+
+## Hotfix Workflow (On-Demand Patch Releases)
+
+The `release-v0.1.0-fix` branch accumulates fixes for the 0.1.x line. Fixes are applied
+**without** version bumps. When ready, publish as 0.1.1, 0.1.2, etc.
+
+### Applying a Fix
+
+```bash
+git checkout release-v0.1.0-fix
+git cherry-pick <commit-hash>
+# NO version bump — version stays at 0.1.0
+```
+
+Multiple fixes accumulate freely. Version only changes at publish time.
+
+### Publishing a Hotfix
+
+1. **Bump the version** on `release-v0.1.0-fix`:
+   - `pom.xml`: `0.1.0` → `0.1.1`
+   - `build.gradle.kts`: `version = "0.1.0"` → `version = "0.1.1"`
+   - Commit: `git commit -am "release: bump to 0.1.1"`
+
+2. **Push the branch**: `git push origin release-v0.1.0-fix`
+
+3. **Trigger the hotfix workflow**:
+   ```bash
+   gh workflow run publish-hotfix.yml \
+     -f branch=release-v0.1.0-fix \
+     -f version=0.1.1 \
+     -f tag_name=v0.1.1
+   ```
+
+4. The workflow builds, tests, publishes to GitHub Packages, creates the tag, and pushes.
+
+### Updating Dependent Projects
+
+When PEX publishes a hotfix, MDB-SQL must update `pexVersion` in its `gradle.properties`
+and `<pex.version>` in its `pom.xml`.

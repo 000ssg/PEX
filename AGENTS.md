@@ -23,7 +23,7 @@ To build the project using Gradle:
 - `pex-all`: Aggregated module containing all features.
 - `pex-nosql`: NoSQL database implementation and SPIs.
     - `pex-nosql-core`: Core engine for NoSQL operations.
-    /`pex-nosql-dialects`: Specific dialect implementations for NoSQL.
+    - `pex-nosql-dialects`: Specific dialect implementations for NoSQL.
 
 ## Dependency & Versioning Standards
 The project must adhere to the following Java and library versions:

@@ -20,7 +20,7 @@
 
 ## Project Goals
 
-PEX (Parse and Execute) is a Java 24 toolkit for:
+PEX (Parse and Execute) is a Java 25 toolkit for:
 
 1. **Defining grammars** in EBNF notation and parsing input against them at runtime.
 2. **Constructing and executing ASTs** through a pluggable handler/function registry.
@@ -52,7 +52,7 @@ pex/                           # Root project (Maven + Gradle dual build)
 └── costs/                     # Build cost and effort report
 ```
 
-**Total**: ~350 Java source files, ~60 400 lines of code, 2 459 tests.
+**Total**: ~350 Java source files, ~69 700 lines of code, 3 015 tests.
 
 ---
 
@@ -97,7 +97,7 @@ No production code; contains only integration tests and `Pex.java` (a demonstrat
 
 ### 1. Sealed Interfaces + Records Everywhere
 
-`Result<T>`, `RuleExpression`, `AstNode`, `PexEvent`, `AntlrExpression` — all use Java 24 sealed interfaces with record implementations. This enables exhaustive `switch` expressions at call sites, eliminates boilerplate equals/hashCode, and makes the type hierarchy explicit and closed (extending requires modifying the `permits` clause).
+`Result<T>`, `RuleExpression`, `AstNode`, `PexEvent`, `AntlrExpression` — all use Java 25 sealed interfaces with record implementations. This enables exhaustive `switch` expressions at call sites, eliminates boilerplate equals/hashCode, and makes the type hierarchy explicit and closed (extending requires modifying the `permits` clause).
 
 **Trade-off**: Sealed hierarchies cannot be extended by external code. This is deliberate — the extension point is the SPI (`PexPlugin`, `ConverterFactory`), not the AST. `ExtensionNode` wraps arbitrary payloads to allow plugin-defined node types to coexist in a sealed hierarchy.
 
@@ -215,7 +215,7 @@ Each dialect parser (`OracleParser`, `MysqlParser`, `PostgresqlParser`, etc.) us
 | pex-sql-dialects | 256 | — |
 | pex-tools | 221 | — |
 | pex-all (integration) | 118 | — |
-| **Total** | **2 459** | |
+| **Total** | **3 015** | |
 
 New tests added in this session (+55):
 - `TelemetryTest` (18 tests) — `ParseEvent`, `ExecuteEvent`, `ScopeEvent`, `ErrorEvent`, `PexTelemetryListener`
@@ -229,7 +229,7 @@ New tests added in this session (+55):
 
 PEX uses both Maven 3.9+ and Gradle 8.14+ with identical configuration:
 
-- **Java 24** with `--enable-preview` (required for sealed interfaces with exhaustive switching in preview form)
+- **Java 25** with `--enable-preview` (required for sealed interfaces with exhaustive switching in preview form)
 - **Parallel test execution**: 4 forks (Maven Surefire `forkCount=4`; Gradle `maxParallelForks=4`)
 - Dependencies: JUnit 5.11.4, AssertJ 3.27.3, Mockito 5.14.2, SLF4J 2.0.16
 

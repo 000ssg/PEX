@@ -7,10 +7,10 @@ This document tracks all requirements, design decisions, and their evolution thr
 ## Project Timeline Overview
 
 - **Start Date**: June 16, 2026
-- **Total Commits**: 17
-- **Total Tests**: 2,576 passing
-- **Total Lines of Code**: ~63,200
-- **Modules**: 10 (pex-base, pex-arithmetics, pex-converter, pex-sql-core, pex-sql-olap, pex-sql-streaming, pex-sql-dialects, pex-tools, pex-all)
+- **Total Commits**: 18
+- **Total Tests**: 3,015 passing
+- **Total Lines of Code**: ~69,700
+- **Modules**: 13 (pex-base, pex-arithmetics, pex-converter, pex-sql-core, pex-sql-olap, pex-sql-streaming, pex-sql-dialects, pex-nosql-core, pex-nosql-dialects, pex-tools, pex-all)
 - **Grammar Documentation**: 22 HTML files with 462 railroad diagrams + 12 ANTLR4 .g4 sample grammars
 - **Latest Feature**: SQL feature compliance test suite + docs/COMPLIANCE.md across all 5 dialect variants
 
@@ -674,7 +674,7 @@ Context: these PEX changes were made to fix 6 failing integration tests in the M
 ### Implementation Details
 **New files:**
 - `settings.gradle.kts` — root project name `pex`, includes all 5 subprojects
-- `build.gradle.kts` (root) — Java plugin, group `ssg`, version `0.1.0-SNAPSHOT`, shared subproject config with centralized dependency versions (SLF4J 2.0.16, JUnit 5.11.4, Mockito 5.14.2, AssertJ 3.27.3)
+- `build.gradle.kts` (root) — Java plugin, group `ssg`, version `0.1.0`, shared subproject config with centralized dependency versions (SLF4J 2.0.16, JUnit 5.11.4, Mockito 5.14.2, AssertJ 3.27.3)
 - `pex-base/build.gradle.kts` — empty (inherits all from root)
 - `pex-arithmetics/build.gradle.kts` — `implementation(project(":pex-base"))`
 - `pex-converter/build.gradle.kts` — `implementation(project(":pex-base"))`
@@ -886,7 +886,7 @@ Context: these PEX changes were made to fix 6 failing integration tests in the M
 
 ### Reformulated Requirements
 1. Maven parent POM with `pom` packaging aggregating 5 child modules
-2. Group ID `ssg`, artifact ID `pex`, version `0.1.0-SNAPSHOT`
+2. Group ID `ssg`, artifact ID `pex`, version `0.1.0`
 3. Java 24 compiler release with `--enable-preview` flag for both compile and test
 4. Dependency management for: SLF4J 2.0.16 (logging), JUnit 5.11.4 (testing), Mockito 5.14.2 (mocking), AssertJ 3.27.3 (fluent assertions)
 5. Maven Surefire plugin 3.5.2 with parallel class execution, 4 forks, balanced run order
@@ -968,8 +968,8 @@ Context: these PEX changes were made to fix 6 failing integration tests in the M
 - Source location tracking (`SourceLocation`) for parser error reporting
 
 ### Testing
-- 2,240 total tests across 75+ test files
-- Unit tests for every module (base: 485, arithmetics: 270, converter: 218, sql-core: 493, olap: 167, streaming: 160, dialects: 256, tools: 73)
+- 3,015 total tests across 90+ test files
+- Unit tests for every module (base: 643, arithmetics: 288, converter: 218, sql-core: 509, olap: 187, streaming: 175, dialects: 273, nosql-core: 198, nosql-dialects: 185, tools: 221)
 - Integration tests for cross-module plugin loading and end-to-end pipelines (118)
 - JIT round-trip tests: AST -> Java source -> compile -> execute -> verify
 - Dual build system verification: all tests pass under both Maven and Gradle
@@ -982,25 +982,27 @@ Context: these PEX changes were made to fix 6 failing integration tests in the M
 
 | Metric | Value |
 |--------|-------|
-| **Total Lines of Code** | ~62,400 |
+| **Total Lines of Code** | ~69,700 |
 | **Source Files** | 350+ Java files |
 | **Test Files** | 78+ test files |
-| **Total Tests** | 2,459 (all passing) |
-| **Modules** | 10 |
+| **Total Tests** | 3,015 (all passing) |
+| **Modules** | 13 |
 | **Build Systems** | 2 (Maven + Gradle) |
 
 ### Tests by Module
 
 | Module | Tests | Key Test Classes |
 |--------|-------|-----------------|
-| pex-base | 485 | ResultTest, BnfParserTest, BnfModelTest, DialectExtensionTest, RecursiveDescentEngineTest, AstNodeTest, AstVisitorTest, ScopeTreeTest, TypeSystemTest, ExecutionEngineTest, GrammarLoaderTest, RealWorldBaseTest |
-| pex-arithmetics | 270 | IntArithmeticHandlerTest, FloatArithmeticHandlerTest, ComparisonHandlerTest, BooleanHandlerTest, BitwiseHandlerTest, MathFunctionsTest, ConversionFunctionsTest, RadixFunctionsTest, NumericPromotionTest, ComplexArithmeticsTest, RealWorldArithmeticsTest |
+| pex-base | 643 | ResultTest, BnfParserTest, BnfModelTest, DialectExtensionTest, RecursiveDescentEngineTest, AstNodeTest, AstVisitorTest, ScopeTreeTest, TypeSystemTest, ExecutionEngineTest, GrammarLoaderTest, RealWorldBaseTest |
+| pex-arithmetics | 288 | IntArithmeticHandlerTest, FloatArithmeticHandlerTest, ComparisonHandlerTest, BooleanHandlerTest, BitwiseHandlerTest, MathFunctionsTest, ConversionFunctionsTest, RadixFunctionsTest, NumericPromotionTest, ComplexArithmeticsTest, RealWorldArithmeticsTest |
 | pex-converter | 218 | JavaConverterTest, CSharpConverterTest, CppConverterTest, KotlinConverterTest, ScalaConverterTest, RubyConverterTest, BasicConverterTest, NamingMapperTest, JitCompilerTest, RealWorldConverterTest |
-| pex-sql-core | 445 | SqlTokenizerTest, SqlParserTest, InMemoryDatabaseTest, QueryExecutorTest, DmlExecutorTest, DdlExecutorTest, JoinEngineTest, AggregateEngineTest, ExpressionEvaluatorTest, TransactionTest |
-| pex-sql-olap | 139 | WindowFunctionTest, CteTest, GroupingSetTest, MergeTest, PivotTest |
-| pex-sql-streaming | 140 | StreamSimulatorTest, WindowManagerTest, WatermarkTest, StreamAggregatorTest |
-| pex-sql-dialects | 211 | OracleDialectTest, MssqlDialectTest, MysqlDialectTest, PostgresqlDialectTest, SpecialEngineTest |
-| pex-all | 106 | CrossModulePluginLoadingTest, EndToEndArithmeticsTest, EndToEndSqlTest, EndToEndConverterTest, JitRoundTripTest, FullPipelineTest, SqlSubModuleIntegrationTest |
+| pex-sql-core | 509 | SqlTokenizerTest, SqlParserTest, InMemoryDatabaseTest, QueryExecutorTest, DmlExecutorTest, DdlExecutorTest, JoinEngineTest, AggregateEngineTest, ExpressionEvaluatorTest, TransactionTest |
+| pex-sql-olap | 187 | WindowFunctionTest, CteTest, GroupingSetTest, MergeTest, PivotTest |
+| pex-sql-streaming | 175 | StreamSimulatorTest, WindowManagerTest, WatermarkTest, StreamAggregatorTest |
+| pex-sql-dialects | 273 | OracleDialectTest, MssqlDialectTest, MysqlDialectTest, PostgresqlDialectTest, SpecialEngineTest |
+| pex-nosql-core | 198 | NoSqlEngineTest, QueryEvaluatorTest, UpdateEvaluatorTest, AggregationPipelineTest, NoSqlPluginTest |
+| pex-nosql-dialects | 185 | MongoDBDialectTest, CassandraDialectTest, MongoQueryTest, CqlDialectTest |
+| pex-all | 118 | CrossModulePluginLoadingTest, EndToEndArithmeticsTest, EndToEndSqlTest, EndToEndConverterTest, JitRoundTripTest, FullPipelineTest, SqlSubModuleIntegrationTest |
 
 ### Version History
 
@@ -1008,6 +1010,7 @@ Context: these PEX changes were made to fix 6 failing integration tests in the M
 |---------|------|---------|-------|-------|---------|-----------|
 | 0.1.0-SNAPSHOT | June 16, 2026 | 3 | 1,072 | ~23,000 | 5 | Full implementation + Gradle build |
 | 0.1.0-SNAPSHOT | June 18, 2026 | 4 | 2,014 | ~42,000 | 10 | PostgreSQL, EBNF grammars, complex tests, bug fixes |
+| 0.1.0 | August 2026 | 3 | 2,760 | ~63,200 | 13 | Release v0.1.0 |
 
 ---
 
@@ -1046,7 +1049,7 @@ This document should be updated with each significant feature addition or requir
 
 ---
 
-**Last Updated**: 2026-06-18
-**Document Version**: 1.1
-**Total Commits Documented**: 4
+**Last Updated**: 2026-08-12
+**Document Version**: 2.0
+**Total Commits Documented**: 18
 **Project Status**: Active Development

@@ -1,7 +1,7 @@
 ![Java 25](https://img.shields.io/badge/Java-25-blue?logo=openjdk)
 ![Maven 3.9+](https://img.shields.io/badge/Maven-3.9%2B-C71A36?logo=apachemaven)
 ![Gradle 9.6+](https://img.shields.io/badge/Gradle-9.6%2B-02303A?logo=gradle)
-![Tests 2760](https://img.shields.io/badge/tests-2760-brightgreen)
+![Tests 3015](https://img.shields.io/badge/tests-3015-brightgreen)
 ![Version 0.2.0-SNAPSHOT](https://img.shields.io/badge/version-0.2.0-SNAPSHOT-orange)
 ![License MIT](https://img.shields.io/badge/license-MIT-green)
 
@@ -300,24 +300,24 @@ pex/                        (root aggregator)
 <dependency>
     <groupId>ssg</groupId>
     <artifactId>pex-base</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.2.0-SNAPSHOT</version>
 </dependency>
 
 <!-- Add domain modules as needed -->
 <dependency>
     <groupId>ssg</groupId>
     <artifactId>pex-arithmetics</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.2.0-SNAPSHOT</version>
 </dependency>
 <dependency>
     <groupId>ssg</groupId>
-    <artifactId>pex-sql</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <artifactId>pex-sql-core</artifactId>
+    <version>0.2.0-SNAPSHOT</version>
 </dependency>
 <dependency>
     <groupId>ssg</groupId>
     <artifactId>pex-converter</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.2.0-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -325,10 +325,10 @@ pex/                        (root aggregator)
 
 ```kotlin
 dependencies {
-    implementation("ssg:pex-base:0.1.0-SNAPSHOT")
-    implementation("ssg:pex-arithmetics:0.1.0-SNAPSHOT")
-    implementation("ssg:pex-sql:0.1.0-SNAPSHOT")
-    implementation("ssg:pex-converter:0.1.0-SNAPSHOT")
+    implementation("ssg:pex-base:0.2.0-SNAPSHOT")
+    implementation("ssg:pex-arithmetics:0.2.0-SNAPSHOT")
+    implementation("ssg:pex-sql-core:0.2.0-SNAPSHOT")
+    implementation("ssg:pex-converter:0.2.0-SNAPSHOT")
 }
 ```
 
@@ -846,16 +846,18 @@ tests sequentially (parallel execution disabled for reliability).
 
 | Module | Tests | Focus |
 |--------|------:|-------|
-| pex-base | 485 | Result monad, BNF parser, grammar model, recursive-descent engine, AST nodes, scope tree, execution engine, SPI, GrammarLoader, real-world complex tests |
-| pex-arithmetics | 270 | Integer/float handlers, bitwise/boolean/comparison ops, math/conversion/radix functions, type promotion, IEEE 754, real-world calculations |
+| pex-base | 643 | Result monad, BNF parser, grammar model, recursive-descent engine, AST nodes, scope tree, execution engine, SPI, GrammarLoader, real-world complex tests |
+| pex-arithmetics | 288 | Integer/float handlers, bitwise/boolean/comparison ops, math/conversion/radix functions, type promotion, IEEE 754, real-world calculations |
 | pex-converter | 218 | Java/C#/C++/Kotlin/Scala/Ruby/BASIC converters, JIT compilation, converter registry, complex programs |
 | pex-sql-core | 509 | SQL parser (all statement types), in-memory DBMS (CRUD, joins, aggregations, transactions, triggers, procedures), nested subqueries, aliases, complex WHERE, stored procedures, views; hash-join, LRU parse cache, executeBatch(Stream), partial push-down |
-| pex-sql-olap | 167 | Window functions (14), CTEs (recursive/non-recursive), CUBE/ROLLUP/GROUPING SETS, MERGE, PIVOT/UNPIVOT, real-world analytics |
-| pex-sql-streaming | 160 | Stream lifecycle, tumbling/hopping/sliding/session windows, watermarks, emit strategies, stream joins, aggregation, IoT/clickstream/financial scenarios |
-| pex-sql-dialects | 256 | Oracle/MSSQL/MySQL/PostgreSQL parsers and functions, columnar, time-series, full-text, spatial engines, real-world dialect tests |
+| pex-sql-olap | 187 | Window functions (14), CTEs (recursive/non-recursive), CUBE/ROLLUP/GROUPING SETS, MERGE, PIVOT/UNPIVOT, real-world analytics |
+| pex-sql-streaming | 175 | Stream lifecycle, tumbling/hopping/sliding/session windows, watermarks, emit strategies, stream joins, aggregation, IoT/clickstream/financial scenarios |
+| pex-sql-dialects | 273 | Oracle/MSSQL/MySQL/PostgreSQL parsers and functions, columnar, time-series, full-text, spatial engines, real-world dialect tests |
 | pex-tools | 221 | Railroad diagram renderer (BNF + native ANTLR4), SVG/PNG exporters, BNF↔ANTLR converter, native ANTLR parser, grammar doc generator, Swing visualizer app |
+| pex-nosql-core | 198 | In-memory NoSQL engine, query evaluator (15 operators), update evaluator (7 operators), aggregation pipeline (10 stages), NoSQL plugin SPI |
+| pex-nosql-dialects | 185 | MongoDB fluent API (MongoQuery/MongoUpdate/MongoPipeline), CQL/Cassandra dialect, dialect-specific operations |
 | pex-all | 118 | Cross-module plugin loading, end-to-end pipelines, JIT round-trip, SQL sub-module integration, cross-dialect tests |
-| **Total** | **2,404** | |
+| **Total** | **3,015** | |
 
 Testing stack: **JUnit 5.11**, **Mockito 5.14**, **AssertJ 3.27**.
 

@@ -7,14 +7,12 @@ import ssg.pex.bnf.model.Grammar;
 import ssg.pex.bnf.model.Group;
 import ssg.pex.bnf.model.NonTerminal;
 import ssg.pex.bnf.model.Repetition;
-import ssg.pex.bnf.model.RepetitionKind;
 import ssg.pex.bnf.model.Rule;
 import ssg.pex.bnf.model.RuleExpression;
 import ssg.pex.bnf.model.Sequence;
 import ssg.pex.bnf.model.Terminal;
 import ssg.pex.result.Result;
 
-import java.awt.BasicStroke;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;

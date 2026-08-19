@@ -40,7 +40,6 @@ import ssg.pex.nosql.dialects.mongodb.MongoUpdate;
 import ssg.pex.nosql.dialects.mongodb.MongoPipeline;
 import ssg.pex.nosql.dialects.cassandra.CassandraDatabase;
 import ssg.pex.sql.dbms.InMemoryDatabase;
-import ssg.pex.sql.dbms.result.DmlResult;
 import ssg.pex.sql.dbms.result.QueryResult;
 import ssg.pex.sql.dialects.DialectDatabase;
 import ssg.pex.sql.dialects.DialectDatabase.DialectType;

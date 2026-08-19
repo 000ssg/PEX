@@ -8,7 +8,6 @@ import ssg.pex.sql.ast.SqlExpression;
 import ssg.pex.sql.ast.SqlSupport.*;
 import ssg.pex.sql.dbms.*;
 import ssg.pex.sql.dbms.result.DmlResult;
-import ssg.pex.sql.dbms.result.QueryResult;
 
 import java.util.ArrayList;
 import java.util.List;

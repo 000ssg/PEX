@@ -4,7 +4,6 @@ import ssg.pex.sql.ast.SqlExpression;
 import ssg.pex.sql.ast.SqlExpression.BinaryExpr;
 import ssg.pex.sql.ast.SqlExpression.ColumnRef;
 import ssg.pex.sql.ast.SqlSupport.JoinClause;
-import ssg.pex.sql.ast.SqlSupport.JoinType;
 import ssg.pex.sql.dbms.Column;
 import ssg.pex.sql.dbms.Row;
 

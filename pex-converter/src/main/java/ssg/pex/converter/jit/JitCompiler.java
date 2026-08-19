@@ -117,7 +117,6 @@ public class JitCompiler {
             // We need to save bytes when the stream is closed
             return new SimpleJavaFileObject(
                     URI.create("bytes:///" + className.replace('.', '/') + kind.extension), kind) {
-                private final ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
                 @Override
                 public OutputStream openOutputStream() {

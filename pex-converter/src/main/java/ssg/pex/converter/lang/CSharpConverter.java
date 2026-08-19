@@ -5,7 +5,6 @@ import ssg.pex.ast.node.FunctionDefNode;
 import ssg.pex.ast.node.Operator;
 import ssg.pex.ast.node.ParameterNode;
 import ssg.pex.converter.ConversionConfig;
-import ssg.pex.converter.ConversionConfig.NamingConvention;
 import ssg.pex.converter.TargetLanguage;
 import ssg.pex.converter.mapping.NamingMapper;
 import ssg.pex.converter.mapping.OperatorMapper;

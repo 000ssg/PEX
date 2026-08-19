@@ -6,7 +6,6 @@ import ssg.pex.bnf.model.Alternation;
 import ssg.pex.bnf.model.Group;
 import ssg.pex.bnf.model.NonTerminal;
 import ssg.pex.bnf.model.Repetition;
-import ssg.pex.bnf.model.RepetitionKind;
 import ssg.pex.bnf.model.Rule;
 import ssg.pex.bnf.model.RuleExpression;
 import ssg.pex.bnf.model.Sequence;

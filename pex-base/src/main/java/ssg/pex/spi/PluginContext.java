@@ -2,7 +2,6 @@ package ssg.pex.spi;
 
 import ssg.pex.bnf.dialect.DialectExtension;
 import ssg.pex.bnf.model.Grammar;
-import ssg.pex.exec.FunctionDef;
 import ssg.pex.exec.FunctionRegistry;
 import ssg.pex.exec.HandlerRegistry;
 import ssg.pex.exec.NativeFunction;

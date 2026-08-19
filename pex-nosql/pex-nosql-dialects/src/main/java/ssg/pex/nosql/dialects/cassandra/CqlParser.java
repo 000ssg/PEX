@@ -35,9 +35,6 @@ public final class CqlParser {
     /** Default keyspace (set by USE statement). */
     private String currentKeyspace = "default_ks";
 
-    /** Pending TTL map: document _id → expiry ms. Applied after insert/update. */
-    private final Map<String, Long> pendingTtls = new LinkedHashMap<>();
-
     public CqlParser(InMemoryNoSqlDatabase database) {
         this.database = database;
     }

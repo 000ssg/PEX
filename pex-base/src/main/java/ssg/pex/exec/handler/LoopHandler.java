@@ -1,6 +1,5 @@
 package ssg.pex.exec.handler;
 
-import ssg.pex.ast.node.LoopKind;
 import ssg.pex.ast.node.LoopNode;
 import ssg.pex.exec.ExecutionContext;
 import ssg.pex.exec.NodeHandler;

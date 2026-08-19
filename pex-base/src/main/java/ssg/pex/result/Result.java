@@ -4,7 +4,6 @@ import ssg.pex.ast.SourceLocation;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.function.Consumer;

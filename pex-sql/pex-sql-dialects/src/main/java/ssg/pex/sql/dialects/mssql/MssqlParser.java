@@ -24,10 +24,6 @@ public class MssqlParser {
     private static final Pattern TRY_PATTERN = Pattern.compile(
             "(?i)BEGIN\\s+TRY\\s+(.+?)\\s+END\\s+TRY\\s+BEGIN\\s+CATCH\\s+(.+?)\\s+END\\s+CATCH",
             Pattern.DOTALL);
-    // Matches MSSQL #temp table names in DDL and DML
-    private static final Pattern HASH_TABLE_PATTERN = Pattern.compile(
-            "(?i)(?<=(CREATE\\s{1,20}TABLE\\s{1,20}|INSERT\\s{1,20}INTO\\s{1,20}|FROM\\s{1,20}|JOIN\\s{1,20}|UPDATE\\s{1,20}|DROP\\s{1,20}TABLE\\s{1,20}(?:IF\\s{1,20}EXISTS\\s{1,20})?))#(\\w+)");
-
     private final SqlParser coreParser;
 
     public MssqlParser() {

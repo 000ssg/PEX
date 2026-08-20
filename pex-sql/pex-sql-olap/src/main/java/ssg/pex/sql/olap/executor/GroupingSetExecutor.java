@@ -4,10 +4,8 @@ import ssg.pex.result.Result;
 import ssg.pex.sql.dbms.Column;
 import ssg.pex.sql.dbms.InMemoryDatabase;
 import ssg.pex.sql.dbms.Row;
-import ssg.pex.sql.dbms.Table;
 import ssg.pex.sql.dbms.result.QueryResult;
 import ssg.pex.sql.olap.ast.GroupingSetSpec;
-import ssg.pex.sql.olap.ast.GroupingSetSpec.GroupingType;
 
 import java.util.*;
 import java.util.stream.Collectors;

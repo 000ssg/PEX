@@ -1,7 +1,6 @@
 package ssg.pex.sql.olap;
 
 import ssg.pex.result.Result;
-import ssg.pex.sql.ast.SelectNode;
 import ssg.pex.sql.ast.SqlNode;
 import ssg.pex.sql.dbms.InMemoryDatabase;
 import ssg.pex.sql.dbms.result.DmlResult;

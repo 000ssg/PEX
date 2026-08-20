@@ -19,3 +19,6 @@ include("pex-sql:pex-sql-dialects")
 
 include("pex-nosql:pex-nosql-core")
 include("pex-nosql:pex-nosql-dialects")
+
+// Demo module
+include("pex-demos")
